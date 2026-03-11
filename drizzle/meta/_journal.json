@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1773031360380,
+      "tag": "0000_solid_the_hand",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773031693608,
+      "tag": "0001_tiny_selene",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773051495727,
+      "tag": "0002_previous_dreaming_celestial",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1773105920268,
+      "tag": "0003_nervous_shard",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1773110246029,
+      "tag": "0004_wet_blue_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1773118223678,
+      "tag": "0005_handy_sentinels",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1773135159205,
+      "tag": "0006_sudden_gladiator",
+      "breakpoints": true
+    }
+  ]
+}

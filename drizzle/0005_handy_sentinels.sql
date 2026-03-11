@@ -1,0 +1,1 @@
+-- ALTER TABLE "PhieuDatPhong" ADD COLUMN "trangThai" varchar(50) DEFAULT 'da_duyet';

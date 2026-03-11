@@ -1,0 +1,62 @@
+{
+  "id": "bdd53cbf-a26f-4b5c-a920-cd00efe29618",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.LoaiPhong": {
+      "name": "LoaiPhong",
+      "schema": "",
+      "columns": {
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tenLoaiPhong": {
+          "name": "tenLoaiPhong",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moTa": {
+          "name": "moTa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gia": {
+          "name": "gia",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

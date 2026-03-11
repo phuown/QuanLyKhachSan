@@ -1,0 +1,113 @@
+{
+  "id": "40feb4d2-c2b0-4b54-9715-1ac1f8de0bfa",
+  "prevId": "6be74ebe-635a-4abf-93f3-b8a24d8bace5",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.AnhLoaiPhong": {
+      "name": "AnhLoaiPhong",
+      "schema": "",
+      "columns": {
+        "maAnh": {
+          "name": "maAnh",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "AnhLoaiPhong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk": {
+          "name": "AnhLoaiPhong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk",
+          "tableFrom": "AnhLoaiPhong",
+          "tableTo": "LoaiPhong",
+          "columnsFrom": [
+            "maLoaiPhong"
+          ],
+          "columnsTo": [
+            "maLoaiPhong"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.LoaiPhong": {
+      "name": "LoaiPhong",
+      "schema": "",
+      "columns": {
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tenLoaiPhong": {
+          "name": "tenLoaiPhong",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moTa": {
+          "name": "moTa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gia": {
+          "name": "gia",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dien_tich": {
+          "name": "dien_tich",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "so_nguoi": {
+          "name": "so_nguoi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

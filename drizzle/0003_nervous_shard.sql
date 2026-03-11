@@ -1,0 +1,1 @@
+ALTER TABLE "LoaiPhong" ADD COLUMN "anhChinh" varchar(255) NOT NULL DEFAULT '';
