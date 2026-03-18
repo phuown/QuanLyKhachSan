@@ -41,6 +41,7 @@ export const PhieuDatPhong = pgTable("PhieuDatPhong", {
   ngayTraPhong: date("ngayTraPhong").notNull(),
   trangThai: varchar("trangThai", { length: 50 }).default("da_duyet"),
   ngayHuy: timestamp("ngayHuy"),
+  soLuongKhach: integer("so_luong_khach").notNull().default(1),
   //  maPhieuThanhToan: integer("maPhieuThanhToan").references(() => PhieuThanhToan.maPhieuThanhToan),
 });
 
@@ -77,6 +78,28 @@ export const DanhGia = pgTable("DanhGia", {
   maKhachHang: integer("maKhachHang").notNull().references(() => KhachHang.maKhachHang),
 });
 
+export const KhuyenMai = pgTable("KhuyenMai", {
+  maKhuyenMai: serial("maKhuyenMai").primaryKey(),
+  maCode: varchar("maCode", { length: 255 }).notNull(),
+  tenKhuyenMai: varchar("tenKhuyenMai", { length: 255 }).notNull(),
+  noiDung: text("noiDung").notNull(),
+  ngayBatDau: date("ngayBatDau").notNull(),
+  ngayKetThuc: date("ngayKetThuc").notNull(),
+}, (table) => {
+  return {
+    unique_maCode: uniqueIndex("unique_maCode").on(table.maCode),
+  };
+});
+
+export const ChiTietKhuyenMai = pgTable("ChiTietKhuyenMai", {
+  maKhuyenMai: integer("maKhuyenMai").notNull().references(() => KhuyenMai.maKhuyenMai),
+  maLoaiPhong: integer("maLoaiPhong").notNull().references(() => LoaiPhong.maLoaiPhong),
+  giamGia: integer("giamGia").notNull(),
+  trangThai: boolean("trangThai").notNull(),
+}, table => ({
+  unique_khuyenmai_loaiphong: uniqueIndex("unique_khuyenmai_loaiphong").on(table.maKhuyenMai, table.maLoaiPhong),
+}));
+
 
 // export const TienNghi = pgTable("TienNghi", {
 //   maTienNghi: serial("maTienNghi").primaryKey(),
@@ -92,22 +115,6 @@ export const DanhGia = pgTable("DanhGia", {
 //   unique_phong_tienNghi: uniqueIndex("unique_phong_tienNghi").on(table.maPhong, table.maTienNghi),
 // }));
 
-// export const KhuyenMai = pgTable("KhuyenMai", {
-//   maKhuyenMai: serial("maKhuyenMai").primaryKey(),
-//   tenKhuyenMai: varchar("tenKhuyenMai", { length: 255 }).notNull(),
-//   noiDung: text("noiDung").notNull(),
-//   ngayBatDau: date("ngayBatDau").notNull(),
-//   ngayKetThuc: date("ngayKetThuc").notNull(),
-// });
-
-// export const ChiTietKhuyenMai = pgTable("ChiTietKhuyenMai", {
-//   maKhuyenMai: integer("maKhuyenMai").notNull().references(() => KhuyenMai.maKhuyenMai),
-//   maLoaiPhong: integer("maLoaiPhong").notNull().references(() => LoaiPhong.maLoaiPhong),
-//   giamGia: integer("giamGia").notNull(),
-//   trangThai: boolean("trangThai").notNull(),
-// }, table => ({
-//   unique_khuyenmai_loaiphong: uniqueIndex("unique_khuyenmai_loaiphong").on(table.maKhuyenMai, table.maLoaiPhong),
-// }));
 
 // export const PhieuThanhToan = pgTable("PhieuThanhToan", {
 //   maPhieuThanhToan: serial("maPhieuThanhToan").primaryKey(),

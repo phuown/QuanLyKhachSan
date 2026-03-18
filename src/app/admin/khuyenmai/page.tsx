@@ -1,15 +1,15 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { LoaiPhong, AnhLoaiPhong } from "@/db/schema";
+import { KhuyenMai } from "@/db/schema";
 import { asc } from "drizzle-orm";
 import Link from "next/link";
 import LogoutButton from "../LogoutButton";
-import RoomsClient from "./RoomsClient";
+import KhuyenMaiClient from "./KhuyenMaiClient";
 
 import Sidebar from "../Sidebar";
 
-export default async function AdminRoomsPage() {
+export default async function AdminKhuyenMaiPage() {
     const cookieStore = await cookies();
     const isAdmin = cookieStore.get("admin_session");
 
@@ -17,20 +17,14 @@ export default async function AdminRoomsPage() {
         redirect("/admin/login");
     }
 
-    const allRooms = await db.select().from(LoaiPhong).orderBy(asc(LoaiPhong.maLoaiPhong));
-    const allImages = await db.select({
-        maLoaiPhong: AnhLoaiPhong.maLoaiPhong,
-        imageUrl: AnhLoaiPhong.imageUrl,
-    }).from(AnhLoaiPhong);
+    const allPromotions = await db.select().from(KhuyenMai).orderBy(asc(KhuyenMai.maKhuyenMai));
 
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <Sidebar />
 
             {/* Main Content */}
-            <main className="flex-1 p-8">
-                <RoomsClient rooms={allRooms} images={allImages} />
-            </main>
+            <KhuyenMaiClient promotions={allPromotions} />
         </div>
     );
 }

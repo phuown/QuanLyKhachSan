@@ -50,6 +50,20 @@
       "when": 1773135159205,
       "tag": "0006_sudden_gladiator",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1773806066732,
+      "tag": "0007_cultured_tenebrous",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1773807050429,
+      "tag": "0008_bored_kree",
+      "breakpoints": true
     }
   ]
 }

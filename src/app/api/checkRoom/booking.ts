@@ -108,6 +108,7 @@ export async function createBookingAction(
             ngayDat: new Date(),
             ngayNhanPhong: checkIn,
             ngayTraPhong: checkOut,
+            soLuongKhach: guests,
         }).returning({ maPhieuDatPhong: PhieuDatPhong.maPhieuDatPhong });
 
         const maPhieuDatPhong = newPhieu[0].maPhieuDatPhong;

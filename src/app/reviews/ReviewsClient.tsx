@@ -39,7 +39,6 @@ export default function ReviewsClient() {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
 
-    // Form state
     const [formData, setFormData] = useState({
         tenKhachHang: "",
         email: "",

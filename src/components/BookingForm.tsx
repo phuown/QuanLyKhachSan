@@ -20,7 +20,6 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
     const [isChecking, setIsChecking] = useState(false);
     const [availability, setAvailability] = useState<{ available: boolean, remaining: number, message: string } | null>(null);
 
-    // Customer info
     const [hoten, setHoten] = useState("");
     const [sdt, setSdt] = useState("");
     const [email, setEmail] = useState("");
@@ -30,7 +29,6 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
-    // Tự động điền thông tin từ tài khoản đăng nhập
     useEffect(() => {
         if (user) {
             if (user.primaryEmailAddress?.emailAddress) {

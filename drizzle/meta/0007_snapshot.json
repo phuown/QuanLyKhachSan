@@ -1,0 +1,661 @@
+{
+  "id": "523f01f1-d378-4803-b172-5194ab37cf8a",
+  "prevId": "e8a3e869-9adf-49f5-a998-b9682a43a437",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.AnhLoaiPhong": {
+      "name": "AnhLoaiPhong",
+      "schema": "",
+      "columns": {
+        "maAnh": {
+          "name": "maAnh",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "AnhLoaiPhong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk": {
+          "name": "AnhLoaiPhong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk",
+          "tableFrom": "AnhLoaiPhong",
+          "tableTo": "LoaiPhong",
+          "columnsFrom": [
+            "maLoaiPhong"
+          ],
+          "columnsTo": [
+            "maLoaiPhong"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ChiTietKhuyenMai": {
+      "name": "ChiTietKhuyenMai",
+      "schema": "",
+      "columns": {
+        "maKhuyenMai": {
+          "name": "maKhuyenMai",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "giamGia": {
+          "name": "giamGia",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "trangThai": {
+          "name": "trangThai",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "unique_khuyenmai_loaiphong": {
+          "name": "unique_khuyenmai_loaiphong",
+          "columns": [
+            {
+              "expression": "maKhuyenMai",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "maLoaiPhong",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ChiTietKhuyenMai_maKhuyenMai_KhuyenMai_maKhuyenMai_fk": {
+          "name": "ChiTietKhuyenMai_maKhuyenMai_KhuyenMai_maKhuyenMai_fk",
+          "tableFrom": "ChiTietKhuyenMai",
+          "tableTo": "KhuyenMai",
+          "columnsFrom": [
+            "maKhuyenMai"
+          ],
+          "columnsTo": [
+            "maKhuyenMai"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "ChiTietKhuyenMai_maLoaiPhong_LoaiPhong_maLoaiPhong_fk": {
+          "name": "ChiTietKhuyenMai_maLoaiPhong_LoaiPhong_maLoaiPhong_fk",
+          "tableFrom": "ChiTietKhuyenMai",
+          "tableTo": "LoaiPhong",
+          "columnsFrom": [
+            "maLoaiPhong"
+          ],
+          "columnsTo": [
+            "maLoaiPhong"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.DanhGia": {
+      "name": "DanhGia",
+      "schema": "",
+      "columns": {
+        "maDanhGia": {
+          "name": "maDanhGia",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tenKhachHang": {
+          "name": "tenKhachHang",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "noiDung": {
+          "name": "noiDung",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "soSao": {
+          "name": "soSao",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 5
+        },
+        "ngayDanhGia": {
+          "name": "ngayDanhGia",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "maKhachHang": {
+          "name": "maKhachHang",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "DanhGia_maKhachHang_KhachHang_maKhachHang_fk": {
+          "name": "DanhGia_maKhachHang_KhachHang_maKhachHang_fk",
+          "tableFrom": "DanhGia",
+          "tableTo": "KhachHang",
+          "columnsFrom": [
+            "maKhachHang"
+          ],
+          "columnsTo": [
+            "maKhachHang"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.KhachHang": {
+      "name": "KhachHang",
+      "schema": "",
+      "columns": {
+        "maKhachHang": {
+          "name": "maKhachHang",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "hoten": {
+          "name": "hoten",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sdt": {
+          "name": "sdt",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "diaChi": {
+          "name": "diaChi",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngaySinh": {
+          "name": "ngaySinh",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gioiTinh": {
+          "name": "gioiTinh",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "unique_sdt": {
+          "name": "unique_sdt",
+          "columns": [
+            {
+              "expression": "sdt",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "unique_email": {
+          "name": "unique_email",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.KhuyenMai": {
+      "name": "KhuyenMai",
+      "schema": "",
+      "columns": {
+        "maKhuyenMai": {
+          "name": "maKhuyenMai",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tenKhuyenMai": {
+          "name": "tenKhuyenMai",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "noiDung": {
+          "name": "noiDung",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngayBatDau": {
+          "name": "ngayBatDau",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngayKetThuc": {
+          "name": "ngayKetThuc",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.LoaiPhong": {
+      "name": "LoaiPhong",
+      "schema": "",
+      "columns": {
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tenLoaiPhong": {
+          "name": "tenLoaiPhong",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moTa": {
+          "name": "moTa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gia": {
+          "name": "gia",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dien_tich": {
+          "name": "dien_tich",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "so_nguoi": {
+          "name": "so_nguoi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "anhChinh": {
+          "name": "anhChinh",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PhieuDatPhong": {
+      "name": "PhieuDatPhong",
+      "schema": "",
+      "columns": {
+        "maPhieuDatPhong": {
+          "name": "maPhieuDatPhong",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "maKhachHang": {
+          "name": "maKhachHang",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngayDat": {
+          "name": "ngayDat",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngayNhanPhong": {
+          "name": "ngayNhanPhong",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngayTraPhong": {
+          "name": "ngayTraPhong",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "trangThai": {
+          "name": "trangThai",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'da_duyet'"
+        },
+        "ngayHuy": {
+          "name": "ngayHuy",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PhieuDatPhong_maKhachHang_KhachHang_maKhachHang_fk": {
+          "name": "PhieuDatPhong_maKhachHang_KhachHang_maKhachHang_fk",
+          "tableFrom": "PhieuDatPhong",
+          "tableTo": "KhachHang",
+          "columnsFrom": [
+            "maKhachHang"
+          ],
+          "columnsTo": [
+            "maKhachHang"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Phong": {
+      "name": "Phong",
+      "schema": "",
+      "columns": {
+        "maPhong": {
+          "name": "maPhong",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "soPhong": {
+          "name": "soPhong",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "maTinhTrang": {
+          "name": "maTinhTrang",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "unique_soPhong": {
+          "name": "unique_soPhong",
+          "columns": [
+            {
+              "expression": "soPhong",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "Phong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk": {
+          "name": "Phong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk",
+          "tableFrom": "Phong",
+          "tableTo": "LoaiPhong",
+          "columnsFrom": [
+            "maLoaiPhong"
+          ],
+          "columnsTo": [
+            "maLoaiPhong"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Phong_maTinhTrang_TinhTrang_maTinhTrang_fk": {
+          "name": "Phong_maTinhTrang_TinhTrang_maTinhTrang_fk",
+          "tableFrom": "Phong",
+          "tableTo": "TinhTrang",
+          "columnsFrom": [
+            "maTinhTrang"
+          ],
+          "columnsTo": [
+            "maTinhTrang"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.TinhTrang": {
+      "name": "TinhTrang",
+      "schema": "",
+      "columns": {
+        "maTinhTrang": {
+          "name": "maTinhTrang",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tenTinhTrang": {
+          "name": "tenTinhTrang",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.chiTietPhieuDatPhong": {
+      "name": "chiTietPhieuDatPhong",
+      "schema": "",
+      "columns": {
+        "maPhieuDatPhong": {
+          "name": "maPhieuDatPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "maLoaiPhong": {
+          "name": "maLoaiPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "soLuongPhong": {
+          "name": "soLuongPhong",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "unique_phieu_loaiphong": {
+          "name": "unique_phieu_loaiphong",
+          "columns": [
+            {
+              "expression": "maPhieuDatPhong",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "maLoaiPhong",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "chiTietPhieuDatPhong_maPhieuDatPhong_PhieuDatPhong_maPhieuDatPhong_fk": {
+          "name": "chiTietPhieuDatPhong_maPhieuDatPhong_PhieuDatPhong_maPhieuDatPhong_fk",
+          "tableFrom": "chiTietPhieuDatPhong",
+          "tableTo": "PhieuDatPhong",
+          "columnsFrom": [
+            "maPhieuDatPhong"
+          ],
+          "columnsTo": [
+            "maPhieuDatPhong"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "chiTietPhieuDatPhong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk": {
+          "name": "chiTietPhieuDatPhong_maLoaiPhong_LoaiPhong_maLoaiPhong_fk",
+          "tableFrom": "chiTietPhieuDatPhong",
+          "tableTo": "LoaiPhong",
+          "columnsFrom": [
+            "maLoaiPhong"
+          ],
+          "columnsTo": [
+            "maLoaiPhong"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

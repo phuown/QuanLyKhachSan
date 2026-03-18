@@ -78,6 +78,7 @@ export async function updateBookingStatusAction(maPhieu: number, trangThai: stri
         }
 
         revalidatePath("/admin");
+        revalidatePath("/admin/bookings");
         revalidatePath("/admin/rooms");
         return { success: true };
     } catch (error: any) {

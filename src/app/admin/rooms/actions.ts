@@ -36,6 +36,7 @@ export async function addRoomTypeAction(formData: {
             }
         }
 
+        revalidatePath("/admin");
         revalidatePath("/admin/rooms");
         return { success: true };
     } catch (error: any) {
@@ -48,6 +49,7 @@ export async function deleteRoomTypeAction(maLoaiPhong: number) {
     try {
         await db.delete(AnhLoaiPhong).where(eq(AnhLoaiPhong.maLoaiPhong, maLoaiPhong));
         await db.delete(LoaiPhong).where(eq(LoaiPhong.maLoaiPhong, maLoaiPhong));
+        revalidatePath("/admin");
         revalidatePath("/admin/rooms");
         return { success: true };
     } catch (error: any) {

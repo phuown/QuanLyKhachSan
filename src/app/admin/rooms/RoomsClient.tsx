@@ -86,7 +86,6 @@ export default function RoomsClient({ rooms, images }: { rooms: Room[], images: 
                             key={room.maLoaiPhong}
                             className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
                         >
-                            {/* Hiển thị danh sách phòng */}
                             <div
                                 className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 cursor-pointer hover:bg-blue-50 transition-colors group"
                                 onClick={() => setSelectedRoom({ maLoaiPhong: room.maLoaiPhong, tenLoaiPhong: room.tenLoaiPhong })}
