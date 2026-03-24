@@ -24,14 +24,14 @@ export default async function BookingPage({ params }: { params: Promise<{ id: st
     return (
         <div className="min-h-screen bg-gray-50">
             <Header />
-            <main className="max-w-4xl mx-auto py-12 px-6">
-                <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-                    <div className="bg-blue-600 p-8 text-white">
-                        <h1 className="text-3xl font-bold">Hoàn tất đặt phòng</h1>
-                        <p className="opacity-90 mt-2">Phòng: {room[0].tenLoaiPhong}</p>
+            <main className="max-w-4xl mx-auto py-8 px-6">
+                <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div className="bg-blue-600 p-5 text-white">
+                        <h1 className="text-xl font-bold">Hoàn tất đặt phòng</h1>
+                        <p className="opacity-90 text-sm mt-1">Phòng: {room[0].tenLoaiPhong}</p>
                     </div>
 
-                    <div className="p-8">
+                    <div className="p-5">
                         <BookingForm roomPrice={room[0].gia} maLoaiPhong={room[0].maLoaiPhong} />
                     </div>
                 </div>
