@@ -52,7 +52,7 @@ export default function GamePage() {
       <Header />
 
       {/* HERO */}
-      <section className="relative h-[500px] w-full">
+      <section className="relative h-[250px] w-full">
         <Image
           src="/uploads/vuichoi/cvnuoc.jpg"
           alt="Water Park"
@@ -63,28 +63,28 @@ export default function GamePage() {
         <div className="absolute inset-0 bg-black/50"></div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
-          <h1 className="text-5xl font-light">Công Viên Nước</h1>
-          <p className="mt-3 text-lg">Vui chơi và thư giãn tại công viên nước tuyệt đẹp</p>
+          <h1 className="text-3xl font-light">Công Viên Nước</h1>
+          <p className="mt-2 text-base">Vui chơi và thư giãn tại công viên nước tuyệt đẹp</p>
         </div>
       </section>
 
       {/* MAIN CONTENT */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           
-          <div className="mb-16">
-            <h3 className="text-3xl font-bold text-gray-800 mb-10 text-center">
+          <div className="mb-10">
+            <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
               Khám Phá Công Viên Nước
             </h3>
 
-            <p className="text-gray-700 text-lg leading-relaxed mb-12 text-center">
+            <p className="text-gray-600 text-sm leading-relaxed mb-10 text-center px-4">
               Công viên nước ABC Hotel là điểm đến lý tưởng cho cả gia đình với các trò chơi nước sôi động, hồ bơi xanh mát và các tiện nghi hiện đại. Từ những trượt nước rối rắm đến hồ bơi yên tĩnh, chúng tôi có mọi thứ bạn cần để tận hưởng ngày hè tuyệt vời.
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
               
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-                <div className="relative h-[300px]">
+                <div className="relative h-[200px]">
                   {/* Image Carousel */}
                   {waterSlidesImages.map((img, index) => (
                     <Image
@@ -111,16 +111,16 @@ export default function GamePage() {
                     ))}
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">Trượt Nước Rối Rắm</h4>
-                  <p className="text-gray-600 text-sm">
+                <div className="p-4">
+                  <h4 className="text-lg font-bold text-gray-800 mb-1.5">Trượt Nước Rối Rắm</h4>
+                  <p className="text-gray-600 text-xs">
                     Các trượt nước tốc độ cao và ngoặt qua với độ cao khác nhau. Cảm nhận cơn chóng mặt khi trượt xuống nước lạnh mát.
                   </p>
                 </div>
               </div>
 
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-                <div className="relative h-[300px]">
+                <div className="relative h-[200px]">
                   {/* Image Carousel */}
                   {mainPoolImages.map((img, index) => (
                     <Image
@@ -147,9 +147,9 @@ export default function GamePage() {
                     ))}
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">Hồ Bơi Chính</h4>
-                  <p className="text-gray-600 text-sm">
+                <div className="p-4">
+                  <h4 className="text-lg font-bold text-gray-800 mb-1.5">Hồ Bơi Chính</h4>
+                  <p className="text-gray-600 text-xs">
                     Hồ bơi với nước sạch và an toàn. Hoàn hảo cho bơi lội, luyện tập hoặc thư giãn.
                   </p>
                 </div>
@@ -157,7 +157,7 @@ export default function GamePage() {
 
 
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-                <div className="relative h-[300px]">
+                <div className="relative h-[200px]">
                   {/* Image Carousel */}
                   {kidsPoolImages.map((img, index) => (
                     <Image
@@ -184,9 +184,9 @@ export default function GamePage() {
                     ))}
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">Công viên nước vui chơi cho Trẻ Em</h4>
-                  <p className="text-gray-600 text-sm">
+                <div className="p-4">
+                  <h4 className="text-lg font-bold text-gray-800 mb-1.5">Công viên nước vui chơi cho Trẻ Em</h4>
+                  <p className="text-gray-600 text-xs">
                     Công viên nước nông an toàn dành cho trẻ em với các trò chơi nước vui nhộn, an toàn phù hợp với độ tuổi trẻ em và có giám sát.
                   </p>
                 </div>
@@ -196,29 +196,29 @@ export default function GamePage() {
           </div>
 
           {/* AMENITIES */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-12 mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 mb-10">
+            <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
               Tiện Nghi & Dịch Vụ
             </h3>
             
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-6">
               <div>
-                <h4 className="text-xl font-bold text-blue-600 mb-3">🏖️ Bãi Biển & Đệm</h4>
-                <p className="text-gray-700 text-sm">
+                <h4 className="text-base font-bold text-blue-600 mb-2">🏖️ Bãi Biển & Đệm</h4>
+                <p className="text-gray-600 text-xs">
                   Ghế nằm, ô che nắng và khăn mát được cung cấp miễn phí trên toàn công viên.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-blue-600 mb-3">🍔 Quầy Ăn Nhẹ</h4>
-                <p className="text-gray-700 text-sm">
+                <h4 className="text-base font-bold text-blue-600 mb-2">🍔 Quầy Ăn Nhẹ</h4>
+                <p className="text-gray-600 text-xs">
                   Quầy ăn nhẹ phục vụ nước mát, kem, pizza và các món ăn nhẹ khác.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-blue-600 mb-3">👨‍⚕️ Nhân Viên an Toàn</h4>
-                <p className="text-gray-700 text-sm">
+                <h4 className="text-base font-bold text-blue-600 mb-2">👨‍⚕️ Nhân Viên an Toàn</h4>
+                <p className="text-gray-600 text-xs">
                   Các nhân viên cứu hộ được đào tạo chuyên nghiệp theo dõi toàn bộ công viên.
                 </p>
               </div>
@@ -227,7 +227,7 @@ export default function GamePage() {
 
           {/* BACK TO HOME */}
           <div className="text-center">
-            <Link href="/" className="inline-block bg-blue-400 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition font-semibold">
+            <Link href="/" className="inline-block bg-blue-400 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
               Quay lại Trang Chủ
             </Link>
           </div>
