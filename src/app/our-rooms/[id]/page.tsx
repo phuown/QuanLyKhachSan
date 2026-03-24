@@ -53,10 +53,10 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
         <div className="min-h-screen bg-gray-50">
             <Header />
 
-            <main className="max-w-7xl mx-auto py-12 px-6">
-                <div className="mb-8">
-                    <Link href="/our-rooms" className="text-blue-600 hover:text-blue-800 flex items-center gap-2 transition-colors">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <main className="max-w-6xl mx-auto py-8 px-6">
+                <div className="mb-5">
+                    <Link href="/our-rooms" className="text-blue-600 hover:text-blue-800 flex items-center gap-1.5 transition-colors text-sm font-medium">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                         Quay lại danh sách phòng
@@ -67,48 +67,48 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
                     {/* Left Side: Description & Info */}
                     <div className="space-y-8 animate-in fade-in slide-in-from-left duration-700">
                         <div>
-                            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                                 {roomDetails.tenLoaiPhong}
                             </h1>
                             <div className="flex items-center gap-6 text-gray-500">
                                 <div className="flex items-center gap-2">
-                                    <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                    <span className="bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
                                         {roomDetails.dienTich} m²
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                    <span className="bg-green-100 text-green-600 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
                                         Tối đa {roomDetails.soNguoi} người
                                     </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="prose prose-lg text-gray-600 max-w-none">
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Mô tả chi tiết</h3>
-                            <p className="leading-relaxed whitespace-pre-line">
+                        <div className="text-gray-600 max-w-none">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-3">Mô tả chi tiết</h3>
+                            <p className="leading-relaxed whitespace-pre-line text-sm">
                                 {roomDetails.moTa}
                             </p>
                         </div>
 
-                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <div className="flex items-center justify-between mb-6">
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div className="flex items-center justify-between mb-5">
                                 <div>
-                                    <p className="text-gray-500 text-sm uppercase tracking-wider">Giá mỗi đêm</p>
-                                    <p className="text-3xl font-bold text-blue-600">
+                                    <p className="text-gray-400 text-[10px] uppercase font-bold tracking-widest mb-0.5">Giá mỗi đêm</p>
+                                    <p className="text-xl font-bold text-blue-600">
                                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(roomDetails.gia)}
                                     </p>
                                 </div>
                                 {userId ? (
                                     <Link
                                         href={`/booking/${roomDetails.maLoaiPhong}`}
-                                        className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg inline-block"
+                                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg inline-block text-sm"
                                     >
                                         Đặt phòng ngay
                                     </Link>
                                 ) : (
                                     <SignInButton mode="modal">
-                                        <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg">
+                                        <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg text-sm">
                                             Đăng nhập để đặt phòng
                                         </button>
                                     </SignInButton>
@@ -133,7 +133,7 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
                             {allImages.length > 0 ? (
                                 <>
                                     {/* Main Large Image */}
-                                    <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                                    <div className="relative h-[300px] md:h-[350px] rounded-2xl overflow-hidden shadow-xl">
                                         <Image
                                             src={allImages[0].imageUrl}
                                             alt={roomDetails.tenLoaiPhong}
@@ -144,9 +144,9 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
                                     </div>
 
                                     {/* Thumbnail Grid */}
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                         {allImages.slice(1).map((img, index) => (
-                                            <div key={index} className="relative h-32 md:h-40 rounded-xl overflow-hidden shadow-md group cursor-pointer">
+                                            <div key={index} className="relative h-20 md:h-24 rounded-xl overflow-hidden shadow-md group cursor-pointer">
                                                 <Image
                                                     src={img.imageUrl}
                                                     alt={`${roomDetails.tenLoaiPhong} ${index + 2}`}
