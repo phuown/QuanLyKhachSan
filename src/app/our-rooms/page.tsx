@@ -35,7 +35,7 @@ export default async function OurRoomsPage() {
             <Header />
 
             {/* Hero Banner for Our Rooms */}
-            <div className="relative h-[400px] w-full">
+            <div className="relative h-[250px] w-full">
                 <Image
                     src="/uploads/anh_ks_ben_ngoai/Anh-mat-chinh-ks.jpg"
                     alt="Our Rooms Banner"
@@ -43,35 +43,35 @@ export default async function OurRoomsPage() {
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <h1 className="text-5xl md:text-6xl font-bold text-white tracking-wide">
+                    <h1 className="text-3xl md:text-4xl font-bold text-white tracking-wide">
                         Our Rooms
                     </h1>
                 </div>
             </div>
 
             {/* Rooms List Section */}
-            <section className="py-20 px-6 max-w-7xl mx-auto">
-                <div className="text-center mb-16 space-y-4">
-                    <h2 className="text-4xl font-bold text-gray-800">Không Gian Nghỉ Dưỡng Hoàn Hảo</h2>
-                    <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            <section className="py-10 px-6 max-w-5xl mx-auto">
+                <div className="text-center mb-10 space-y-3">
+                    <h2 className="text-2xl font-bold text-gray-800">Không Gian Nghỉ Dưỡng Hoàn Hảo</h2>
+                    <p className="text-gray-600 max-w-2xl mx-auto text-base">
                         Khám phá sự kết hợp hoàn hảo giữa thiết kế hiện đại và sự tiện nghi tối đa trong hệ thống phòng nghỉ của chúng tôi.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {rooms.length > 0 ? (
                         rooms.map((room) => (
                             <div key={room.maLoaiPhong} className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 group">
                                 {/* Room Image */}
-                                <div className="relative h-72 overflow-hidden">
+                                <div className="relative h-48 overflow-hidden">
                                     <Image
                                         src={room.anhChinh}
                                         alt={room.tenLoaiPhong}
                                         fill
                                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
-                                    <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md">
-                                        <span className="text-blue-600 font-bold text-lg">
+                                    <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm text-sm">
+                                        <span className="text-blue-600 font-bold">
                                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.gia)}
                                         </span>
                                         <span className="text-gray-500 text-sm">/đêm</span>
@@ -79,11 +79,11 @@ export default async function OurRoomsPage() {
                                 </div>
 
                                 {/* Room Info */}
-                                <div className="p-8 space-y-4">
-                                    <h3 className="text-2xl font-bold text-gray-800 group-hover:text-blue-500 transition-colors">
+                                <div className="p-5 space-y-3">
+                                    <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-500 transition-colors">
                                         {room.tenLoaiPhong}
                                     </h3>
-                                    <p className="text-gray-600 line-clamp-3 leading-relaxed">
+                                    <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
                                         {room.moTa}
                                     </p>
 
@@ -116,11 +116,11 @@ export default async function OurRoomsPage() {
             </section>
 
             {/* Bottom CTA */}
-            <section className="bg-gray-800 py-16 text-white text-center">
-                <div className="max-w-4xl mx-auto px-6 space-y-6">
-                    <h2 className="text-3xl font-bold">Bạn đã sẵn sàng cho kỳ nghỉ trong mơ?</h2>
-                    <p className="text-gray-400 text-lg">Liên hệ với chúng tôi ngay hôm nay để nhận được ưu đãi tốt nhất cho kỳ nghỉ của bạn.</p>
-                    <Link href="/contact" className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-full transition duration-300 transform hover:-translate-y-1">
+            <section className="bg-gray-800 py-6 text-white text-center">
+                <div className="max-w-4xl mx-auto px-6 space-y-3">
+                    <h2 className="text-lg font-bold">Bạn đã sẵn sàng cho kỳ nghỉ trong mơ?</h2>
+                    <p className="text-gray-400 text-sm">Liên hệ với chúng tôi ngay hôm nay để nhận được ưu đãi tốt nhất cho kỳ nghỉ của bạn.</p>
+                    <Link href="/contact" className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold px-7 py-2.5 rounded-full transition duration-300 transform hover:-translate-y-1 text-sm">
                         Đặt Phòng Ngay
                     </Link>
                 </div>
