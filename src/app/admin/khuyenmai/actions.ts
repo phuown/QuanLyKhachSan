@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { KhuyenMai, ChiTietKhuyenMai, LoaiPhong } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and, lte, gte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function addKhuyenMaiAction(formData: {
@@ -61,5 +61,54 @@ export async function getAllLoaiPhongAction() {
         return { success: true, data };
     } catch (error: any) {
         return { success: false, data: [], message: error.message };
+    }
+}
+export async function validatePromotionAction(maCode: string, maLoaiPhong: number) {
+    try {
+        const today = new Date().toISOString().split("T")[0];
+
+        // Tìm mã khuyến mãi theo mã code và còn hạn sử dụng
+        const promotions = await db.select()
+            .from(KhuyenMai)
+            .where(
+                and(
+                    eq(KhuyenMai.maCode, maCode),
+                    lte(KhuyenMai.ngayBatDau, today),
+                    gte(KhuyenMai.ngayKetThuc, today)
+                )
+            );
+
+        if (promotions.length === 0) {
+            return { success: false, message: "Mã khuyến mãi không tồn tại hoặc đã hết hạn." };
+        }
+
+        const promo = promotions[0];
+
+        // Kiểm tra xem loại phòng này có được áp dụng khuyến mãi không
+        const detail = await db.select()
+            .from(ChiTietKhuyenMai)
+            .where(
+                and(
+                    eq(ChiTietKhuyenMai.maKhuyenMai, promo.maKhuyenMai),
+                    eq(ChiTietKhuyenMai.maLoaiPhong, maLoaiPhong),
+                    eq(ChiTietKhuyenMai.trangThai, true)
+                )
+            );
+
+        if (detail.length === 0) {
+            return { success: false, message: "Mã khuyến mãi này không áp dụng cho loại phòng bạn chọn." };
+        }
+
+        return {
+            success: true,
+            data: {
+                maKhuyenMai: promo.maKhuyenMai,
+                giamGia: detail[0].giamGia, // Giảm theo %
+                tenKhuyenMai: promo.tenKhuyenMai
+            }
+        };
+    } catch (error: any) {
+        console.error("Lỗi validate khuyến mãi:", error);
+        return { success: false, message: "Lỗi hệ thống khi kiểm tra mã." };
     }
 }
