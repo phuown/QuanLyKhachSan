@@ -12,8 +12,7 @@ export default function Header() {
     { href: "/", label: "Trang chủ" },
     { href: "/our-rooms", label: "Loại phòng" },
     { href: "/about", label: "Giới thiệu" },
-    // { href: "/pages", label: "Pages" },
-    // { href: "/news", label: "Tin tức" },
+    { href: "/khuyenmai", label: "Khuyến mãi" },
     { href: "/contact", label: "Liên hệ" },
     { href: "/reviews", label: "Đánh giá" },
   ];
@@ -89,6 +88,7 @@ export default function Header() {
             <AuthModal />
           )}
         </div>
+
       </div>
     </header>
   );
