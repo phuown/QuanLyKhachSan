@@ -53,20 +53,20 @@ export default function KhuyenMaiPage() {
             <Header />
 
             {/* Hero Section */}
-            <div className="bg-blue-900 text-white pt-32 pb-16">
+            <div className="bg-blue-900 text-white pt-20 pb-10">
                 <div className="container mx-auto px-4 text-center">
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-800/50 rounded-full text-blue-200 text-sm font-bold mb-6 backdrop-blur-sm border border-blue-700">
                         <Tag size={16} />
                         <span>ƯU ĐÃI ĐẶC BIỆT</span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Kỳ nghỉ trong mơ,<br />Giá cả bất ngờ</h1>
-                    <p className="text-blue-100 text-lg max-w-2xl mx-auto leading-relaxed">
+                    <h1 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">Kỳ nghỉ trong mơ,<br />Giá cả bất ngờ</h1>
+                    <p className="text-blue-100 text-base max-w-2xl mx-auto leading-relaxed">
                         Khám phá những chương trình khuyến mãi hấp dẫn nhất dành riêng cho kỳ nghỉ của bạn tại Khách sạn chúng tôi.
                     </p>
                 </div>
             </div>
 
-            <main className="container mx-auto px-4 py-16 flex-1">
+            <main className="container mx-auto px-4 py-10 flex-1">
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-20">
                         <Loader2 className="w-12 h-12 text-blue-600 animate-spin mb-4" />
@@ -85,32 +85,32 @@ export default function KhuyenMaiPage() {
                         {promotions.map((promo) => (
                             <div key={promo.maKhuyenMai} className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden group hover:-translate-y-1 transition-all duration-500 flex flex-col md:flex-row">
                                 {/* Left side: Discount badge */}
-                                <div className="md:w-1/3 bg-blue-600 text-white p-10 flex flex-col items-center justify-center text-center relative overflow-hidden shrink-0">
-                                    <div className="absolute top-[-20%] left-[-20%] w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
-                                    <div className="absolute bottom-[-20%] right-[-20%] w-48 h-48 bg-blue-400/20 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
+                                <div className="md:w-1/3 bg-blue-600 text-white p-6 flex flex-col items-center justify-center text-center relative overflow-hidden shrink-0">
+                                    <div className="absolute top-[-20%] left-[-20%] w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-700"></div>
+                                    <div className="absolute bottom-[-20%] right-[-20%] w-32 h-32 bg-blue-400/20 rounded-full blur-2xl group-hover:scale-110 transition-transform duration-700"></div>
 
-                                    <Tag size={44} className="mb-6 text-blue-200" />
+                                    <Tag size={32} className="mb-4 text-blue-200" />
                                     <div className="flex flex-col">
-                                        <span className="text-xs font-bold tracking-[0.2em] opacity-80 mb-2">GIẢM ĐẾN</span>
+                                        <span className="text-[10px] font-bold tracking-[0.2em] opacity-80 mb-1">GIẢM ĐẾN</span>
                                         <div className="flex items-start">
-                                            <span className="text-6xl font-black">{Math.max(...promo.details.map(d => d.giamGia), 0)}</span>
-                                            <span className="text-2xl font-bold mt-2">%</span>
+                                            <span className="text-4xl font-black text-white">{Math.max(...promo.details.map(d => d.giamGia), 0)}</span>
+                                            <span className="text-xl font-bold mt-1 text-white">%</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Right side: Info */}
-                                <div className="md:w-2/3 p-10 flex flex-col relative">
-                                    <div className="flex justify-between items-start mb-6">
-                                        <h3 className="text-2xl font-bold text-gray-800 leading-tight group-hover:text-blue-600 transition-colors">{promo.tenKhuyenMai}</h3>
-                                        <div className="p-2 bg-green-50 text-green-600 rounded-full shrink-0">
-                                            <CheckCircle2 size={24} />
+                                <div className="md:w-2/3 p-6 flex flex-col relative">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <h3 className="text-lg font-bold text-gray-800 leading-tight group-hover:text-blue-600 transition-colors">{promo.tenKhuyenMai}</h3>
+                                        <div className="p-1.5 bg-green-50 text-green-600 rounded-full shrink-0">
+                                            <CheckCircle2 size={18} />
                                         </div>
                                     </div>
 
-                                    <div className="p-4 bg-gray-50 rounded-2xl mb-8 border border-gray-100 flex items-start gap-3">
-                                        <Info size={18} className="text-blue-500 mt-0.5" />
-                                        <p className="text-gray-600 text-sm italic italic leading-relaxed">"{promo.noiDung}"</p>
+                                    <div className="p-3 bg-gray-50 rounded-xl mb-6 border border-gray-100 flex items-start gap-2">
+                                        <Info size={14} className="text-blue-500 mt-0.5" />
+                                        <p className="text-gray-600 text-xs italic leading-relaxed">"{promo.noiDung}"</p>
                                     </div>
 
                                     {/* Rooms Applied */}
@@ -138,16 +138,16 @@ export default function KhuyenMaiPage() {
                                         </div>
 
                                         {/* Promo Code Section */}
-                                        <div className="flex items-center justify-between gap-4 p-5 bg-slate-900 rounded-[1.5rem] shadow-lg shadow-slate-900/20">
+                                        <div className="flex items-center justify-between gap-4 p-4 bg-slate-900 rounded-2xl shadow-lg shadow-slate-900/10">
                                             <div>
-                                                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5">MÃ ƯU ĐÃI</p>
-                                                <p className="text-2xl font-mono font-black text-white tracking-widest uppercase">{promo.maCode}</p>
+                                                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-1">MÃ ƯU ĐÃI</p>
+                                                <p className="text-lg font-mono font-black text-white tracking-widest uppercase">{promo.maCode}</p>
                                             </div>
                                             <button
                                                 onClick={() => handleCopy(promo.maCode)}
-                                                className="flex items-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-400 hover:scale-105 active:scale-95 transition-all"
+                                                className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-blue-500/20 hover:bg-blue-400 hover:scale-105 active:scale-95 transition-all text-white"
                                             >
-                                                <Copy size={18} /> SAO CHÉP
+                                                <Copy size={16} /> SAO CHÉP
                                             </button>
                                         </div>
                                     </div>
@@ -158,12 +158,12 @@ export default function KhuyenMaiPage() {
                 )}
 
                 {/* FAQ Section */}
-                <div className="mt-24 max-w-4xl mx-auto bg-white rounded-[3rem] p-12 shadow-xl shadow-gray-100 border border-gray-100">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold text-gray-800">Điều kiện áp dụng</h2>
-                        <div className="w-20 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+                <div className="mt-16 max-w-4xl mx-auto bg-white rounded-[2rem] p-8 shadow-lg shadow-gray-100 border border-gray-100">
+                    <div className="text-center mb-8">
+                        <h2 className="text-xl font-bold text-gray-800">Điều kiện áp dụng</h2>
+                        <div className="w-12 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-4">
                             <h4 className="font-bold text-gray-800 flex items-center gap-2">
                                 <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xs">1</div>
