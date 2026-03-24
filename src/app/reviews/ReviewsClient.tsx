@@ -95,37 +95,37 @@ export default function ReviewsClient() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto py-12 px-4">
-            <h1 className="text-4xl font-bold text-center text-gray-800 mb-12 animate-slideDown">Đánh Giá Từ Khách Hàng</h1>
+        <div className="max-w-4xl mx-auto py-8 px-4">
+            <h1 className="text-2xl font-bold text-center text-gray-800 mb-8 animate-slideDown">Đánh Giá Từ Khách Hàng</h1>
 
             {/* Submit Review Form */}
-            <div className="bg-white rounded-3xl shadow-xl p-8 mb-16 border border-gray-100 transform transition-all hover:shadow-2xl">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                    <span className="bg-blue-100 p-2 rounded-lg text-blue-600">✍️</span>
+            <div className="bg-white rounded-2xl shadow-lg p-5 mb-10 border border-gray-100 transform transition-all hover:shadow-xl">
+                <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span className="bg-blue-100 p-1.5 rounded-md text-blue-600">✍️</span>
                     Gửi đánh giá của bạn
                 </h2>
 
                 {!isSignedIn ? (
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 p-6 rounded-2xl border border-blue-100 shadow-inner">
-                        <p className="flex items-center gap-3">
-                            <span className="text-2xl">ℹ️</span>
+                        <p className="flex items-center gap-3 text-sm">
+                            <span className="text-xl">ℹ️</span>
                             Hãy đăng nhập để chia sẻ trải nghiệm tuyệt vời của bạn tại ABC Hotel
                         </p>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid md:grid-cols-2 gap-8">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-3">
-                                <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">Họ tên của bạn</label>
+                                <label className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Họ tên của bạn</label>
                                 <input
                                     type="text"
                                     value={formData.tenKhachHang}
                                     readOnly
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                 />
                             </div>
                             <div className="space-y-3">
-                                <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">Mức độ hài lòng</label>
+                                <label className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Mức độ hài lòng</label>
                                 <div className="flex gap-3 h-[52px] items-center bg-gray-50 rounded-xl px-4 justify-center">
                                     {[1, 2, 3, 4, 5].map((s) => (
                                         <button
@@ -136,7 +136,7 @@ export default function ReviewsClient() {
                                         >
                                             <StarIcon
                                                 fill={s <= formData.soSao ? "currentColor" : "none"}
-                                                className={`w-8 h-8 ${s <= formData.soSao ? "text-yellow-400" : "text-gray-300"}`}
+                                                className={`w-6 h-6 ${s <= formData.soSao ? "text-yellow-400" : "text-gray-300"}`}
                                             />
                                         </button>
                                     ))}
@@ -145,14 +145,14 @@ export default function ReviewsClient() {
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">Chia sẻ trải nghiệm</label>
+                            <label className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Chia sẻ trải nghiệm</label>
                             <textarea
                                 value={formData.noiDung}
                                 onChange={(e) => setFormData({ ...formData, noiDung: e.target.value })}
                                 required
-                                rows={4}
+                                rows={3}
                                 placeholder="Bạn cảm thấy thế nào về dịch vụ, căn phòng và các hoạt động tại khách sạn?..."
-                                className="w-full text-gray-500 border border-gray-800 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all resize-none shadow-sm"
+                                className="w-full text-gray-600 text-sm border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all resize-none shadow-sm"
                             />
                         </div>
 
@@ -172,7 +172,7 @@ export default function ReviewsClient() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-4 rounded-2xl shadow-xl transition-all duration-300 transform ${isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:translate-y-[-2px] hover:shadow-2xl active:scale-[0.98] active:translate-y-0"
+                            className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300 transform ${isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] active:translate-y-0"
                                 }`}
                         >
                             {isSubmitting ? "Đang gửi ý kiến..." : "Gửi đánh giá của bạn"}
@@ -182,10 +182,10 @@ export default function ReviewsClient() {
             </div>
 
             {/* Reviews List */}
-            <div className="space-y-10">
+            <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-800">Cảm nhận từ khách hàng</h2>
-                    <div className="h-1 flex-1 mx-6 bg-gray-100 rounded-full"></div>
+                    <h2 className="text-xl font-bold text-gray-800">Cảm nhận từ khách hàng</h2>
+                    <div className="h-0.5 flex-1 mx-4 bg-gray-100 rounded-full"></div>
                 </div>
 
                 {isLoading ? (
@@ -203,22 +203,22 @@ export default function ReviewsClient() {
                         {reviews.map((review, idx) => (
                             <div
                                 key={review.maDanhGia}
-                                className="bg-white p-8 rounded-3xl shadow-lg border border-gray-50 hover:shadow-2xl transition-all duration-500 group animate-fadeIn"
+                                className="bg-white p-5 rounded-2xl shadow-md border border-gray-50 hover:shadow-lg transition-all duration-500 group animate-fadeIn"
                                 style={{ animationDelay: `${idx * 100}ms` }}
                             >
                                 <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold shadow-lg transform group-hover:rotate-6 transition-transform">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-base font-bold shadow-md transform group-hover:rotate-6 transition-transform">
                                             {review.tenKhachHang.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
-                                            <h3 className="font-bold text-gray-800 text-xl group-hover:text-blue-600 transition-colors">{review.tenKhachHang}</h3>
-                                            <div className="flex gap-1.5 mt-1.5">
+                                            <h3 className="font-bold text-gray-800 text-base group-hover:text-blue-600 transition-colors">{review.tenKhachHang}</h3>
+                                            <div className="flex gap-1 mt-1">
                                                 {[...Array(5)].map((_, i) => (
                                                     <StarIcon
                                                         key={i}
                                                         fill={i < review.soSao ? "currentColor" : "none"}
-                                                        className={`w-5 h-5 ${i < review.soSao ? "text-yellow-400" : "text-gray-200"}`}
+                                                        className={`w-3.5 h-3.5 ${i < review.soSao ? "text-yellow-400" : "text-gray-200"}`}
                                                     />
                                                 ))}
                                             </div>
@@ -231,9 +231,9 @@ export default function ReviewsClient() {
                                     </div>
                                 </div>
 
-                                <div className="mt-6 relative">
-                                    <span className="absolute -top-3 -left-2 text-6xl text-blue-50 opacity-10 font-serif leading-none select-none">"</span>
-                                    <p className="text-gray-600 leading-relaxed text-lg italic pl-4 border-l-4 border-blue-500/20">
+                                <div className="mt-4 relative">
+                                    <span className="absolute -top-3 -left-2 text-4xl text-blue-50 opacity-10 font-serif leading-none select-none">"</span>
+                                    <p className="text-gray-600 leading-relaxed text-sm italic pl-3 border-l-2 border-blue-500/20">
                                         {review.noiDung}
                                     </p>
                                 </div>
