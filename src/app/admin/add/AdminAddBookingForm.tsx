@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { checkRoomAvailability, createBookingAction } from "@/app/api/checkRoom/booking";
+import { validatePromotionAction } from "@/app/admin/khuyenmai/actions";
 
 interface RoomData {
     maLoaiPhong: number;
@@ -42,6 +43,12 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
     const [isChecking, setIsChecking] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [availability, setAvailability] = useState<{ available: boolean, remaining: number, message: string } | null>(null);
+
+    // Promotion states
+    const [promoCode, setPromoCode] = useState("");
+    const [promoData, setPromoData] = useState<{ maKhuyenMai: number, giamGia: number, tenKhuyenMai: string } | null>(null);
+    const [promoError, setPromoError] = useState("");
+    const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
     const [selectedRoomPrice, setSelectedRoomPrice] = useState<number>(rooms[0]?.gia || 0);
 
@@ -86,7 +93,24 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
     };
 
     const nights = calculateNights();
-    const totalPrice = nights * selectedRoomPrice * roomsCount;
+    const originalPrice = nights * selectedRoomPrice * roomsCount;
+    const discountAmount = promoData ? (originalPrice * promoData.giamGia) / 100 : 0;
+    const totalPrice = originalPrice - discountAmount;
+
+    const handleApplyPromo = async () => {
+        if (!promoCode.trim()) return;
+        setIsValidatingPromo(true);
+        setPromoError("");
+        const result = await validatePromotionAction(promoCode, maLoaiPhong);
+        if (result.success && result.data) {
+            setPromoData(result.data);
+            setPromoError("");
+        } else {
+            setPromoData(null);
+            setPromoError(result.message || "Mã không hợp lệ.");
+        }
+        setIsValidatingPromo(false);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -108,7 +132,8 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
             checkOut,
             guests,
             roomsCount,
-            { hoten, sdt, email, diaChi, ngaySinh, gioiTinh }
+            { hoten, sdt, email, diaChi, ngaySinh, gioiTinh },
+            promoData?.maKhuyenMai
         );
         setIsSubmitting(false);
 
@@ -218,11 +243,46 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                             ) : null}
                         </div>
                         <div className="w-full md:w-2/5 text-right font-bold space-y-1">
-                            <p className="text-sm text-slate-500 font-normal">Tổng thanh toán dự kiến ({nights} đêm)</p>
+                            <p className="text-sm text-slate-500 font-normal">Tạm tính: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalPrice)}</p>
+                            {promoData && (
+                                <p className="text-sm text-green-600 font-medium italic">Khuyến mãi ({promoData.giamGia}%): -{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discountAmount)}</p>
+                            )}
+                            <p className="text-sm text-slate-500 font-normal mt-2">Tổng thanh toán dự kiến ({nights} đêm)</p>
                             <p className="text-2xl text-blue-700">
                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}
                             </p>
                         </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Section 1.5: Promotion */}
+            <div className="bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-300">
+                <h3 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Áp dụng mã khuyến mãi</h3>
+                <div className="flex gap-4 items-start">
+                    <div className="flex-1">
+                        <input
+                            type="text"
+                            placeholder="Nhập mã KM (ví dụ: KM2024)"
+                            value={promoCode}
+                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none uppercase font-mono"
+                        />
+                        {promoError && <p className="text-xs text-red-500 mt-1">{promoError}</p>}
+                    </div>
+                    <button
+                        type="button"
+                        onClick={handleApplyPromo}
+                        disabled={isValidatingPromo || !promoCode}
+                        className="px-8 py-3 bg-gray-800 text-white rounded-xl font-bold hover:bg-gray-700 disabled:bg-slate-400 transition-all shadow-md"
+                    >
+                        {isValidatingPromo ? "Đang check..." : "Áp dụng"}
+                    </button>
+                </div>
+                {promoData && (
+                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 text-green-700 text-sm font-medium">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                        <span>Mã hợp lệ: <b>{promoData.tenKhuyenMai}</b> - Giảm trực tiếp <b>{promoData.giamGia}%</b></span>
                     </div>
                 )}
             </div>

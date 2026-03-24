@@ -38,8 +38,8 @@ export default function Sidebar() {
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
-                                        ? "bg-blue-400 text-white shadow-lg shadow-blue-400/20"
-                                        : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                                    ? "bg-blue-400 text-white shadow-lg shadow-blue-400/20"
+                                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                                     }`}
                             >
                                 <Icon size={20} className={isActive ? "text-white" : "text-slate-500 group-hover:text-slate-300"} />
@@ -47,20 +47,6 @@ export default function Sidebar() {
                             </Link>
                         );
                     })}
-                </div>
-
-                <div className="mt-8 pt-8 border-t border-slate-800">
-                    <p className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Thao tác nhanh</p>
-                    <Link
-                        href="/admin/add"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${pathname === "/admin/add"
-                                ? "bg-blue-400 text-white shadow-lg shadow-blue-400/20"
-                                : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-                            }`}
-                    >
-                        <PlusCircle size={20} className={pathname === "/admin/add" ? "text-white" : "text-slate-500 group-hover:text-slate-300"} />
-                        <span className="font-medium text-sm">Tạo phiếu mới</span>
-                    </Link>
                 </div>
             </nav>
 

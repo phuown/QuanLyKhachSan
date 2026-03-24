@@ -1,0 +1,3 @@
+ALTER TABLE "PhieuDatPhong" ADD COLUMN "so_luong_khach" integer DEFAULT 1 NOT NULL;--> statement-breakpoint
+ALTER TABLE "PhieuDatPhong" ADD COLUMN "maKhuyenMai" integer;--> statement-breakpoint
+ALTER TABLE "PhieuDatPhong" ADD CONSTRAINT "PhieuDatPhong_maKhuyenMai_KhuyenMai_maKhuyenMai_fk" FOREIGN KEY ("maKhuyenMai") REFERENCES "public"."KhuyenMai"("maKhuyenMai") ON DELETE no action ON UPDATE no action;

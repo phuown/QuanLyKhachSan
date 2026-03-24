@@ -75,7 +75,8 @@ export async function createBookingAction(
     checkOut: string,
     guests: number,
     roomsCount: number,
-    customerInfo: { hoten: string, sdt: string, email: string, diaChi: string, ngaySinh: string, gioiTinh: boolean }
+    customerInfo: { hoten: string, sdt: string, email: string, diaChi: string, ngaySinh: string, gioiTinh: boolean },
+    maKhuyenMai?: number
 ) {
     try {
         const availability = await checkRoomAvailability(maLoaiPhong, checkIn, checkOut, guests, roomsCount);
@@ -109,6 +110,7 @@ export async function createBookingAction(
             ngayNhanPhong: checkIn,
             ngayTraPhong: checkOut,
             soLuongKhach: guests,
+            maKhuyenMai: maKhuyenMai,
         }).returning({ maPhieuDatPhong: PhieuDatPhong.maPhieuDatPhong });
 
         const maPhieuDatPhong = newPhieu[0].maPhieuDatPhong;
