@@ -33,15 +33,15 @@ export default function AdminLoginPage() {
 
     return (
         <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-            <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full space-y-6">
+            <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full space-y-4">
                 <div className="text-center">
-                    <div className="mx-auto w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <div className="mx-auto w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3 shadow-sm">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                     </div>
-                    <h2 className="text-3xl font-extrabold text-gray-900">Admin Login</h2>
-                    <p className="text-gray-500 mt-2">Dành riêng cho hệ thống quản trị khách sạn</p>
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Admin Login</h2>
+                    <p className="text-[11px] text-gray-400 font-medium mt-1 uppercase tracking-wider">Hệ thống quản trị khách sạn</p>
                 </div>
 
                 {error && (
@@ -50,26 +50,26 @@ export default function AdminLoginPage() {
                     </div>
                 )}
 
-                <form onSubmit={handleLogin} className="space-y-4">
+                <form onSubmit={handleLogin} className="space-y-3">
                     <div>
-                        <label className="text-sm font-bold text-gray-800 block mb-1">Tài khoản</label>
+                        <label className="text-[12px] font-black text-gray-900 uppercase tracking-widest ml-1 mb-1 block">Tài khoản</label>
                         <input
                             type="text"
                             required
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition font-bold text-gray-900 bg-gray-50 text-base"
-                            placeholder="Nhập tên đăng nhập"
+                            className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition font-medium text-gray-900 bg-gray-50 text-sm"
+                            placeholder="Tên đăng nhập"
                         />
                     </div>
                     <div>
-                        <label className="text-sm font-bold text-gray-800 block mb-1">Mật khẩu</label>
+                        <label className="text-[12px] font-black text-gray-900 uppercase tracking-widest ml-1 mb-1 block">Mật khẩu</label>
                         <input
                             type="password"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition font-bold text-gray-900 bg-gray-50 text-base tracking-widest"
+                            className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition font-medium text-gray-900 bg-gray-50 text-sm tracking-widest"
                             placeholder="••••••••"
                         />
                     </div>
@@ -77,14 +77,14 @@ export default function AdminLoginPage() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl font-bold transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30 disabled:opacity-70"
                     >
                         {isLoading ? "Đang xử lý..." : "Đăng nhập hệ thống"}
                     </button>
                 </form>
 
-                <div className="text-center pt-4 border-t border-gray-100">
-                    <a href="/" className="text-sm font-medium text-gray-500 hover:text-blue-600 transition">
+                <div className="text-center pt-3 border-t border-gray-100">
+                    <a href="/" className="text-[11px] font-bold text-gray-400 uppercase tracking-wider hover:text-blue-600 transition">
                         &larr; Quay lại trang chủ
                     </a>
                 </div>
