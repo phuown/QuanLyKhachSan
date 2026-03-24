@@ -84,37 +84,38 @@ export default async function AdminBookingsPage(props: {
             <Sidebar />
 
             {/* Main Content */}
-            <main className="flex-1 p-8">
-                <header className="mb-8 flex justify-between items-center">
+            <main className="flex-1 p-6 md:p-8">
+                <header className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-blue-400">Quản lý Đặt Phòng</h1>
-                        <p className="text-gray-500 mt-1">Danh sách tất cả các đơn đặt phòng của khách sạn</p>
+                        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Quản lý Đặt Phòng</h1>
+                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-0.5">Hệ thống quản trị khách sạn</p>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="bg-white px-4 py-2 rounded-lg shadow-sm font-semibold text-blue-400 border border-blue-100">
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="bg-white px-3 py-1.5 rounded-xl shadow-sm font-bold text-xs text-blue-600 border border-blue-50 flex items-center gap-2 uppercase">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
                             Tổng đơn: {allBookings.length}
                         </div>
                         <StatusFilter initialStatus={statusFilter} />
-                        <Link href="/admin/add" className="px-4 py-2 bg-blue-400 text-white rounded-lg shadow-sm font-semibold hover:bg-blue-400 transition flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path>
+                        <Link href="/admin/add" className="px-2 py-1.5 bg-blue-500 text-white rounded-xl shadow-md font-bold text-sm hover:bg-blue-600 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 uppercase tracking-wider">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4"></path>
                             </svg>
                             Thêm mới
                         </Link>
                     </div>
                 </header>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider border-b">
-                                    <th className="px-6 py-4 font-semibold">Mã Phiếu</th>
-                                    <th className="px-6 py-4 font-semibold">Khách hàng</th>
-                                    <th className="px-6 py-4 font-semibold">Phòng & Số lượng</th>
-                                    <th className="px-6 py-4 font-semibold">Thời gian lưu trú</th>
-                                    <th className="px-6 py-4 font-semibold">Ngày đặt</th>
-                                    <th className="px-6 py-4 font-semibold text-center">Trạng thái</th>
+                                <tr className="bg-gray-50/50 text-gray-500 text-xs font-black uppercase tracking-widest border-b border-gray-100">
+                                    <th className="px-6 py-5">Mã Phiếu</th>
+                                    <th className="px-6 py-4">Khách hàng</th>
+                                    <th className="px-6 py-4">Phòng & Số lượng</th>
+                                    <th className="px-6 py-4">Thời gian lưu trú</th>
+                                    <th className="px-6 py-4">Ngày đặt</th>
+                                    <th className="px-6 py-4 text-center">Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
@@ -132,33 +133,35 @@ export default async function AdminBookingsPage(props: {
                                     </tr>
                                 ) : (
                                     allBookings.map((booking) => (
-                                        <tr key={booking.maPhieu} className="hover:bg-blue-50/50 transition-colors">
-                                            <td className="px-6 py-4">
-                                                <span className="font-mono font-semibold text-blue-600">#{booking.maPhieu}</span>
+                                        <tr key={booking.maPhieu} className="hover:bg-blue-50/30 transition-colors border-b border-gray-50 last:border-0">
+                                            <td className="px-6 py-5">
+                                                <span className="font-mono font-bold text-base text-blue-600 px-2 py-1 bg-blue-50 rounded">#{booking.maPhieu}</span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <p className="font-bold text-gray-800">{booking.hoten}</p>
-                                                <p className="text-sm text-gray-500">{booking.sdt}</p>
-                                                <p className="text-sm text-gray-500">{booking.email}</p>
+                                            <td className="px-6 py-5">
+                                                <p className="text-base font-black text-gray-800 tracking-tight">{booking.hoten}</p>
+                                                <div className="flex flex-col mt-1">
+                                                    <p className="text-xs font-medium text-gray-400">{booking.sdt}</p>
+                                                    <p className="text-xs font-medium text-gray-400 lowercase">{booking.email}</p>
+                                                </div>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <p className="font-medium text-gray-800">{booking.tenLoaiPhong}</p>
-                                                <span className="inline-block mt-1 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md">
+                                            <td className="px-6 py-5">
+                                                <p className="text-base font-bold text-gray-700 tracking-tight">{booking.tenLoaiPhong}</p>
+                                                <span className="inline-block mt-1 px-2.5 py-1 bg-gray-50 text-gray-500 text-xs font-bold rounded uppercase tracking-tighter">
                                                     {booking.soLuongPhong} phòng
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <div className="text-sm text-gray-800 whitespace-nowrap">
-                                                    <span className="text-gray-500 w-10 inline-block">Nhận:</span> {formatDate(booking.ngayNhanPhong)}
+                                            <td className="px-6 py-5">
+                                                <div className="text-sm font-medium text-gray-700 whitespace-nowrap flex items-center gap-2">
+                                                    <span className="text-[11px] font-black text-gray-300 uppercase w-9">In</span> {formatDate(booking.ngayNhanPhong)}
                                                 </div>
-                                                <div className="text-sm text-gray-800 whitespace-nowrap mt-1">
-                                                    <span className="text-gray-500 w-10 inline-block">Trả:</span> {formatDate(booking.ngayTraPhong)}
+                                                <div className="text-sm font-medium text-gray-700 whitespace-nowrap mt-1.5 flex items-center gap-2">
+                                                    <span className="text-[11px] font-black text-gray-300 uppercase w-9">Out</span> {formatDate(booking.ngayTraPhong)}
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-600">
+                                            <td className="px-6 py-5 text-sm font-medium text-gray-500">
                                                 {formatDate(booking.ngayDat)}
                                             </td>
-                                            <td className="px-6 py-4 text-center">
+                                            <td className="px-6 py-5 text-center">
                                                 <BookingStatusSelect
                                                     maPhieu={booking.maPhieu}
                                                     currentStatus={booking.trangThai ?? "da_duyet"}
