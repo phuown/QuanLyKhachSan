@@ -56,7 +56,7 @@ export default function EntertainmentPage() {
       <Header />
 
       {/* HERO */}
-      <section className="relative h-[500px] w-full">
+      <section className="relative h-[250px] w-full">
         <Image
           src="/uploads/vuichoi/vuichoic.jpg"
           alt="Entertainment"
@@ -67,18 +67,18 @@ export default function EntertainmentPage() {
         <div className="absolute inset-0 bg-black/50"></div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
-          <h1 className="text-5xl font-light">Hoạt động giải trí</h1>
-          <p className="mt-3 text-lg">Vui chơi và thư giãn với gia đình</p>
+          <h1 className="text-3xl font-light">Hoạt động giải trí</h1>
+          <p className="mt-2 text-base">Vui chơi và thư giãn với gia đình</p>
         </div>
       </section>
 
       {/* MAIN CONTENT */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           
           {/* ACTIVITIES GRID */}
-          <div className="mb-16">
-            <h3 className="text-3xl font-bold text-gray-800 mb-10 text-center">
+          <div className="mb-10">
+            <h3 className="text-xl font-bold text-gray-800 mb-8 text-center">
               Các Hoạt Động Nổi Bật
             </h3>
             
@@ -86,7 +86,7 @@ export default function EntertainmentPage() {
               
               {/* ACTIVITY 1 */}
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-                <div className="relative h-[250px]">
+                <div className="relative h-[180px]">
                   {/* Image Carousel */}
                   {waterSportsImages.map((img, index) => (
                     <Image
@@ -114,11 +114,11 @@ export default function EntertainmentPage() {
                   </div>
                 </div>
                 
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">
+                <div className="p-4">
+                  <h4 className="text-lg font-bold text-gray-800 mb-1.5">
                     Thể thao dưới nước
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs">
                     Khám phá các hoạt động thể thao thú vị như tập chung vui choi trên hồ, lướt ván, chơi bóng trên nước và các nhiều các trò chơi thú vụ khác.
                   </p>
                 </div>
@@ -126,7 +126,7 @@ export default function EntertainmentPage() {
 
               {/* ACTIVITY 2 */}
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-                <div className="relative h-[250px]">
+                <div className="relative h-[180px]">
                   {/* Image Carousel */}
                   {yogaImages.map((img, index) => (
                     <Image
@@ -154,11 +154,11 @@ export default function EntertainmentPage() {
                   </div>
                 </div>
                 
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">
+                <div className="p-4">
+                  <h4 className="text-lg font-bold text-gray-800 mb-1.5">
                     Yoga & Wellness
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs">
                     Tham gia các lớp yoga buổi sáng và tập thể dục để cân bằng và thư giãn.
                   </p>
                 </div>
@@ -166,7 +166,7 @@ export default function EntertainmentPage() {
 
               {/* ACTIVITY 3 */}
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-                <div className="relative h-[250px]">
+                <div className="relative h-[180px]">
                     {/* Image Carousel */}
                     {kidsClubImages.map((img, index) => (
                       <Image
@@ -194,11 +194,11 @@ export default function EntertainmentPage() {
                     </div>
                 </div>
                 
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-800 mb-2">
+                <div className="p-4">
+                  <h4 className="text-lg font-bold text-gray-800 mb-1.5">
                     Kids Club
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs">
                     Chương trình đặc biệt dành cho trẻ em với các hoạt động sáng tạo và vui chơi an toàn.
                   </p>
                 </div>
@@ -208,16 +208,16 @@ export default function EntertainmentPage() {
           </div>
 
           {/* SCHEDULE SECTION */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-12 mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 mb-10">
+            <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
               Lịch trình khách hàng tham khảo theo ngày
             </h3>
             
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-6">
               
               <div>
-                <h4 className="text-2xl font-bold text-gray-800 mb-4">Buổi sáng (8:00 - 12:00)</h4>
-                <ul className="text-gray-700 space-y-2 text-sm">
+                <h4 className="text-base font-bold text-gray-800 mb-3">Buổi sáng (8:00 - 12:00)</h4>
+                <ul className="text-gray-600 space-y-1.5 text-xs">
                   <li>• 08:00 - Lớp yoga trên bãi biển</li>
                   <li>• 09:00 - Thể thao dưới nước</li>
                   <li>• 10:00 - Lớp bơi cho trẻ em</li>
@@ -226,8 +226,8 @@ export default function EntertainmentPage() {
               </div>
 
               <div>
-                <h4 className="text-2xl font-bold text-gray-800 mb-4">Buổi chiều & tối (15:00 - 22:00)</h4>
-                <ul className="text-gray-700 space-y-2 text-sm">
+                <h4 className="text-base font-bold text-gray-800 mb-3">Buổi chiều & tối (15:00 - 22:00)</h4>
+                <ul className="text-gray-600 space-y-1.5 text-xs">
                   <li>• 15:00 - Zumba trên bãi biển</li>
                   <li>• 16:00 - Chiếu phim hoạt hình</li>
                   <li>• 19:00 - Biểu diễn âm nhạc live</li>
@@ -240,7 +240,7 @@ export default function EntertainmentPage() {
         </div>
 
         <div className="text-center">
-            <Link href="/" className="inline-block bg-blue-400 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition font-semibold">
+            <Link href="/" className="inline-block bg-blue-400 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
               Quay lại Trang Chủ
             </Link>
         </div>
