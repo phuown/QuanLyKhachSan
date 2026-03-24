@@ -42,7 +42,7 @@ export const PhieuDatPhong = pgTable("PhieuDatPhong", {
   trangThai: varchar("trangThai", { length: 50 }).default("da_duyet"),
   ngayHuy: timestamp("ngayHuy"),
   soLuongKhach: integer("so_luong_khach").notNull().default(1),
-  //  maPhieuThanhToan: integer("maPhieuThanhToan").references(() => PhieuThanhToan.maPhieuThanhToan),
+  maKhuyenMai: integer("maKhuyenMai").references(() => KhuyenMai.maKhuyenMai),
 });
 
 export const chiTietPhieuDatPhong = pgTable("chiTietPhieuDatPhong", {
