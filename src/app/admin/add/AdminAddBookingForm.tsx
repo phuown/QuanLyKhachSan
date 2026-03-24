@@ -147,18 +147,18 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-5">
             {/* Section 1: Room Config */}
             <div>
-                <h2 className="text-xl font-bold border-b pb-2 mb-4 text-gray-800">1. Đặt loại phòng & Ngày giờ</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-sm font-semibold text-gray-700">Chọn loại phòng</label>
+                <h2 className="text-sm font-black border-b pb-1.5 mb-3 text-gray-900 uppercase tracking-tight">1. Loại phòng & Thời gian</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1 md:col-span-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Chọn loại phòng</label>
                         <select
                             required
                             value={maLoaiPhong}
                             onChange={(e) => setMaLoaiPhong(parseInt(e.target.value))}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 focus:ring-0 outline-none text-slate-800 font-medium"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none text-slate-800 font-bold text-sm bg-gray-50/50"
                         >
                             {rooms.map(r => (
                                 <option key={r.maLoaiPhong} value={r.maLoaiPhong}>
@@ -168,8 +168,8 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                         </select>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Ngày nhận phòng</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Ngày nhận phòng</label>
                         <div className="relative">
                             <input
                                 type="date"
@@ -177,17 +177,17 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                                 min={new Date().toISOString().split("T")[0]}
                                 value={checkIn}
                                 onChange={(e) => setCheckIn(e.target.value)}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 onClick={(e) => (e.target as HTMLInputElement).showPicker()}
                             />
-                            <div className={`w-full p-3 border-2 border-slate-300 rounded-xl flex items-center justify-between ${checkIn ? 'text-slate-900 font-bold bg-white' : 'text-slate-500 bg-white'}`}>
-                                <span>{checkIn ? formatDateObj(checkIn) : "Ngày/tháng/năm"}</span>
-                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <div className={`w-full py-2 px-3 border border-slate-200 rounded-xl flex items-center justify-between min-h-[40px] ${checkIn ? 'text-slate-900 font-bold bg-white text-sm' : 'text-slate-500 bg-white text-sm'}`}>
+                                <span>{checkIn ? formatDateObj(checkIn) : "Chọn ngày nhận"}</span>
+                                <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Ngày trả phòng</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Ngày trả phòng</label>
                         <div className="relative">
                             <input
                                 type="date"
@@ -195,34 +195,34 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                                 min={checkIn || new Date().toISOString().split("T")[0]}
                                 value={checkOut}
                                 onChange={(e) => setCheckOut(e.target.value)}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 onClick={(e) => (e.target as HTMLInputElement).showPicker()}
                             />
-                            <div className={`w-full p-3 border-2 border-slate-300 rounded-xl flex items-center justify-between ${checkOut ? 'text-slate-900 font-bold bg-white' : 'text-slate-500 bg-white'}`}>
-                                <span>{checkOut ? formatDateObj(checkOut) : "Ngày/tháng/năm"}</span>
-                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <div className={`w-full py-2 px-3 border border-slate-200 rounded-xl flex items-center justify-between min-h-[40px] ${checkOut ? 'text-slate-900 font-bold bg-white text-sm' : 'text-slate-500 bg-white text-sm'}`}>
+                                <span>{checkOut ? formatDateObj(checkOut) : "Chọn ngày trả"}</span>
+                                <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Người lớn & Trẻ em</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Khách (Lớn & Trẻ em)</label>
                         <select
                             value={guests}
                             onChange={(e) => setGuests(parseInt(e.target.value))}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold min-h-[40px] bg-white"
                         >
                             {[1, 2, 3, 4, 5, 6].map(num => (
                                 <option key={num} value={num}>{num} khách</option>
                             ))}
                         </select>
                     </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Số lượng phòng khách cần</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Số lượng phòng</label>
                         <select
                             value={roomsCount}
                             onChange={(e) => setRoomsCount(parseInt(e.target.value))}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold min-h-[40px] bg-white"
                         >
                             {[1, 2, 3, 4, 5, 6].map(num => (
                                 <option key={num} value={num}>{num} phòng</option>
@@ -232,126 +232,125 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                 </div>
 
                 {checkIn && checkOut && (
-                    <div className="mt-6 p-4 rounded-xl bg-blue-50 border border-blue-100 flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div className="mt-4 p-3.5 rounded-xl bg-blue-50/50 border border-blue-100 flex flex-col md:flex-row gap-4 items-center justify-between">
                         <div className="w-full md:w-3/5">
                             {isChecking ? (
-                                <span className="text-slate-600 animate-pulse text-sm">Đang kiểm tra...</span>
+                                <span className="text-[10px] uppercase font-black text-blue-400 animate-pulse tracking-widest">Đang kiểm tra...</span>
                             ) : availability ? (
-                                <div className={`px-4 py-3 rounded-xl text-sm font-bold ${availability.available ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'}`}>
+                                <div className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider ${availability.available ? 'text-green-700 bg-green-50' : 'text-red-700 bg-red-50'}`}>
                                     {availability.message}
                                 </div>
                             ) : null}
                         </div>
-                        <div className="w-full md:w-2/5 text-right font-bold space-y-1">
-                            <p className="text-sm text-slate-500 font-normal">Tạm tính: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalPrice)}</p>
+                        <div className="w-full md:w-2/5 text-right font-bold">
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Tạm tính: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalPrice)}</p>
                             {promoData && (
-                                <p className="text-sm text-green-600 font-medium italic">Khuyến mãi ({promoData.giamGia}%): -{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discountAmount)}</p>
+                                <p className="text-[10px] text-green-600 font-black italic uppercase">-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discountAmount)} ({promoData.giamGia}%)</p>
                             )}
-                            <p className="text-sm text-slate-500 font-normal mt-2">Tổng thanh toán dự kiến ({nights} đêm)</p>
-                            <p className="text-2xl text-blue-700">
-                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}
-                            </p>
+                            <div className="pt-1 mt-1 border-t border-blue-100">
+                                <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Tổng thanh toán ({nights} đêm)</p>
+                                <p className="text-xl text-blue-800 font-black tracking-tight leading-tight">
+                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 )}
             </div>
 
             {/* Section 1.5: Promotion */}
-            <div className="bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-300">
-                <h3 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Áp dụng mã khuyến mãi</h3>
-                <div className="flex gap-4 items-start">
+            <div className="bg-slate-50/50 p-4 rounded-xl border border-dashed border-slate-200">
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 mb-2.5">Áp dụng mã khuyến mãi</h3>
+                <div className="flex gap-3 items-start">
                     <div className="flex-1">
                         <input
                             type="text"
-                            placeholder="Nhập mã KM (ví dụ: KM2024)"
+                            placeholder="Mã KM (tùy chọn)"
                             value={promoCode}
                             onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none uppercase font-mono"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none uppercase font-bold text-sm bg-white"
                         />
-                        {promoError && <p className="text-xs text-red-500 mt-1">{promoError}</p>}
+                        {promoError && <p className="text-[10px] text-red-500 mt-1 font-bold">{promoError}</p>}
                     </div>
                     <button
                         type="button"
                         onClick={handleApplyPromo}
                         disabled={isValidatingPromo || !promoCode}
-                        className="px-8 py-3 bg-gray-800 text-white rounded-xl font-bold hover:bg-gray-700 disabled:bg-slate-400 transition-all shadow-md"
+                        className="px-6 py-2 bg-gray-900 text-white rounded-xl font-bold text-xs hover:bg-black disabled:bg-slate-300 transition-all uppercase tracking-widest"
                     >
-                        {isValidatingPromo ? "Đang check..." : "Áp dụng"}
+                        {isValidatingPromo ? "..." : "Áp dụng"}
                     </button>
                 </div>
                 {promoData && (
-                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 text-green-700 text-sm font-medium">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
-                        <span>Mã hợp lệ: <b>{promoData.tenKhuyenMai}</b> - Giảm trực tiếp <b>{promoData.giamGia}%</b></span>
+                    <div className="mt-2.5 p-2 bg-green-50 border border-green-100 rounded-lg flex items-center gap-2 text-green-700 text-[10px] font-bold uppercase tracking-wider">
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                        <span>Hợp lệ: {promoData.tenKhuyenMai} (-{promoData.giamGia}%)</span>
                     </div>
                 )}
             </div>
 
             {/* Section 2: Customer Input */}
             <div>
-                <h2 className="text-xl font-bold border-b pb-2 mb-4 text-gray-800">2. Hồ sơ khách hàng</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Họ và tên</label>
+                <h2 className="text-sm font-black border-b pb-1.5 mb-3 text-gray-900 uppercase tracking-tight">2. Hồ sơ khách hàng</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Họ và tên</label>
                         <input
                             type="text"
                             required
-                            placeholder="Nhập họ tên đầy đủ"
+                            placeholder="Họ tên khách hàng"
                             value={hoten}
                             onChange={(e) => setHoten(e.target.value)}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800 bg-white"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold bg-white"
                         />
                     </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Giới tính</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Giới tính</label>
                         <select
                             required
                             value={gioiTinh ? "true" : "false"}
                             onChange={(e) => setGioiTinh(e.target.value === "true")}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800 bg-white"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold bg-white"
                         >
                             <option value="true">Nam</option>
                             <option value="false">Nữ</option>
                         </select>
                     </div>
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Số điện thoại</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Số điện thoại</label>
                         <input
                             type="tel"
                             required
                             placeholder="Nhập SĐT"
                             value={sdt}
                             onChange={(e) => setSdt(e.target.value)}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800 bg-white"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold bg-white"
                         />
                     </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Email khách hàng</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email</label>
                         <input
                             type="email"
                             required
                             placeholder="user@example.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800 bg-white"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold bg-white"
                         />
                     </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-sm font-semibold text-gray-700">Địa chỉ</label>
+                    <div className="space-y-1 md:col-span-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Địa chỉ</label>
                         <input
                             type="text"
                             required
                             placeholder="Nhập địa chỉ"
                             value={diaChi}
                             onChange={(e) => setDiaChi(e.target.value)}
-                            className="w-full p-3 border-2 border-slate-300 rounded-xl focus:border-blue-500 outline-none text-slate-800 bg-white"
+                            className="w-full py-2 px-3 border border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800 text-sm font-bold bg-white"
                         />
                     </div>
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Ngày sinh</label>
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Ngày sinh</label>
                         <div className="relative">
                             <input
                                 type="date"
@@ -359,12 +358,12 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                                 max={new Date().toISOString().split("T")[0]}
                                 value={ngaySinh}
                                 onChange={(e) => setNgaySinh(e.target.value)}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 onClick={(e) => (e.target as HTMLInputElement).showPicker()}
                             />
-                            <div className={`w-full p-3 border-2 border-slate-300 rounded-xl flex items-center justify-between ${ngaySinh ? 'text-slate-900 font-bold bg-white' : 'text-slate-500 bg-white'}`}>
-                                <span>{ngaySinh ? formatDateObj(ngaySinh) : "Ngày/tháng/năm"}</span>
-                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <div className={`w-full py-2 px-3 border border-slate-200 rounded-xl flex items-center justify-between min-h-[40px] ${ngaySinh ? 'text-slate-900 font-bold bg-white text-sm' : 'text-slate-500 bg-white text-sm'}`}>
+                                <span>{ngaySinh ? formatDateObj(ngaySinh) : "Chọn ngày sinh"}</span>
+                                <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                         </div>
                     </div>
@@ -372,11 +371,11 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
             </div>
 
             {/* Actions */}
-            <div className="border-t pt-6 text-right space-x-4">
+            <div className="border-t pt-5 text-right space-x-3">
                 <button
                     type="button"
                     onClick={() => router.push("/admin")}
-                    className="px-6 py-3 font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+                    className="px-5 py-2 text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-50 hover:bg-slate-100 rounded-xl transition"
                 >
                     Hủy bỏ
                 </button>
@@ -386,9 +385,9 @@ export default function AdminAddBookingForm({ rooms }: { rooms: RoomData[] }) {
                         !checkIn || !checkOut || nights <= 0 ||
                         isChecking || isSubmitting || !availability?.available || roomsCount > (availability?.remaining || 0)
                     }
-                    className="px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-xl font-bold shadow-lg transition-transform transform active:scale-95 disabled:scale-100"
+                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 transition-all transform active:scale-95 disabled:scale-100"
                 >
-                    {isSubmitting ? "Đang lưu..." : (availability?.available ? "Tạo hóa đơn hoàn tất" : "Mời chọn phòng/tuỳ chỉnh")}
+                    {isSubmitting ? "Đang lưu..." : (availability?.available ? "Xác nhận đặt phòng" : "Kiểm tra thông tin")}
                 </button>
             </div>
         </form>
