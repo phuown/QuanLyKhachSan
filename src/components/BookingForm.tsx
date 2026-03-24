@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { checkRoomAvailability, createBookingAction } from "@/app/api/checkRoom/booking";
+import { validatePromotionAction } from "@/app/admin/khuyenmai/actions";
 
 import { useUser } from "@clerk/nextjs";
 
@@ -28,6 +29,12 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
     const [gioiTinh, setGioiTinh] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+
+    // Promotion states
+    const [promoCode, setPromoCode] = useState("");
+    const [promoData, setPromoData] = useState<{ maKhuyenMai: number, giamGia: number, tenKhuyenMai: string } | null>(null);
+    const [promoError, setPromoError] = useState("");
+    const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -66,7 +73,24 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
     };
 
     const nights = calculateNights();
-    const totalPrice = nights * roomPrice * roomsCount;
+    const originalPrice = nights * roomPrice * roomsCount;
+    const discountAmount = promoData ? (originalPrice * promoData.giamGia) / 100 : 0;
+    const totalPrice = originalPrice - discountAmount;
+
+    const handleApplyPromo = async () => {
+        if (!promoCode.trim()) return;
+        setIsValidatingPromo(true);
+        setPromoError("");
+        const result = await validatePromotionAction(promoCode, maLoaiPhong);
+        if (result.success && result.data) {
+            setPromoData(result.data);
+            setPromoError("");
+        } else {
+            setPromoData(null);
+            setPromoError(result.message || "Mã không hợp lệ.");
+        }
+        setIsValidatingPromo(false);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -88,7 +112,8 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
             checkOut,
             guests,
             roomsCount,
-            { hoten, sdt, email, diaChi, ngaySinh, gioiTinh }
+            { hoten, sdt, email, diaChi, ngaySinh, gioiTinh },
+            promoData?.maKhuyenMai
         );
         setIsSubmitting(false);
 
@@ -294,6 +319,34 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
                     </div>
                 </div>
 
+                <div className="space-y-3 pt-4 border-t">
+                    <h3 className="font-semibold text-gray-800">Mã khuyến mãi (nếu có)</h3>
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            placeholder="Nhập mã KM"
+                            value={promoCode}
+                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                            className="flex-1 p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleApplyPromo}
+                            disabled={isValidatingPromo || !promoCode}
+                            className="px-6 py-3 bg-gray-800 text-white rounded-xl font-medium hover:bg-gray-700 disabled:bg-gray-300 transition-all"
+                        >
+                            {isValidatingPromo ? "Đang kiểm tra..." : "Áp dụng"}
+                        </button>
+                    </div>
+                    {promoError && <p className="text-xs text-red-500">{promoError}</p>}
+                    {promoData && (
+                        <div className="text-xs text-green-600 flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                            Đã áp dụng: {promoData.tenKhuyenMai} (Giảm {promoData.giamGia}%)
+                        </div>
+                    )}
+                </div>
+
                 <div className="bg-blue-50 p-6 rounded-2xl space-y-3">
                     {isChecking ? (
                         <div className="flex items-center gap-2 text-sm text-blue-600 animate-pulse">
@@ -324,6 +377,12 @@ export default function BookingForm({ roomPrice, maLoaiPhong }: BookingFormProps
                         <span>Số đêm:</span>
                         <span>{nights} đêm</span>
                     </div>
+                    {promoData && (
+                        <div className="flex justify-between text-green-600 font-medium italic">
+                            <span>Khuyến mãi ({promoData.giamGia}%):</span>
+                            <span>-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discountAmount)}</span>
+                        </div>
+                    )}
                     <div className="flex justify-between text-xl font-bold text-blue-900 pt-3 border-t border-blue-200">
                         <span>Tổng cộng:</span>
                         <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}</span>
