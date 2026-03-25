@@ -35,7 +35,7 @@ export default function BookingStatusSelect({
                 value={status}
                 onChange={(e) => handleChange(e.target.value)}
                 disabled={isPending}
-                className={`appearance-none cursor-pointer pl-3 pr-7 py-1.5 rounded-full text-sm font-semibold border-0 outline-none focus:ring-2 focus:ring-blue-300 transition ${current.cls} ${isPending ? "opacity-60" : ""}`}
+                className={`appearance-none cursor-pointer pl-4 pr-9 py-2 rounded-full text-sm font-black border-0 outline-none focus:ring-4 focus:ring-blue-100 transition shadow-sm ${current.cls} ${isPending ? "opacity-60" : ""}`}
             >
                 {STATUS_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
