@@ -6,7 +6,7 @@ import {
 export const LoaiPhong = pgTable("LoaiPhong", {
   maLoaiPhong: serial("maLoaiPhong").primaryKey(),
   tenLoaiPhong: varchar("tenLoaiPhong", { length: 255 }).notNull(),
-  moTa: text("moTa").notNull(),
+  moTa: text("moTa"),
   gia: integer("gia").notNull(),
   dienTich: integer("dien_tich"),
   soNguoi: integer("so_nguoi"),
