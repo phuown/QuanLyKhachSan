@@ -5,7 +5,7 @@ import { LoaiPhong, AnhLoaiPhong } from "@/db/schema";
 import { asc } from "drizzle-orm";
 import Link from "next/link";
 import LogoutButton from "../LogoutButton";
-import RoomsClient from "./RoomsClient";
+import RoomsClient from "./RoomsTypeClient";
 
 import Sidebar from "../Sidebar";
 
