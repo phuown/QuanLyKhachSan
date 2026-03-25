@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import { getPhongByLoaiAction, addPhongAction, deletePhongAction, getAllTinhTrangAction } from "./actions";
+import { getPhongByLoaiAction, addPhongAction, deletePhongAction, getAllTinhTrangAction, updatePhongAction } from "./actions";
 
 interface PhongItem {
     maPhong: number;
     soPhong: string;
+    maLoaiPhong: number;
     maTinhTrang: number;
     tenTinhTrang: string | null;
 }
@@ -28,9 +29,14 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
     const [isPending, startTransition] = useTransition();
 
     const [soPhong, setSoPhong] = useState("");
-    const [maTinhTrang, setMaTinhTrang] = useState<number>(0);
+    const [maTinhTrangMacDinh, setMaTinhTrangMacDinh] = useState<number>(1);
     const [showAddForm, setShowAddForm] = useState(false);
     const [addError, setAddError] = useState("");
+
+    // Edit states
+    const [editingId, setEditingId] = useState<number | null>(null);
+    const [editSoPhong, setEditSoPhong] = useState("");
+    const [editMaTinhTrang, setEditMaTinhTrang] = useState<number>(1);
 
     const loadData = async () => {
         setIsLoading(true);
@@ -42,7 +48,12 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
         if (tinhTrangResult.success) {
             const ts = tinhTrangResult.data as TinhTrangItem[];
             setTinhTrangs(ts);
-            if (ts.length > 0) setMaTinhTrang(ts[0].maTinhTrang);
+            const defaultTT = ts.find(t =>
+                t.tenTinhTrang.toLowerCase().includes("không có khách") ||
+                t.tenTinhTrang.toLowerCase().includes("trống")
+            );
+            if (defaultTT) setMaTinhTrangMacDinh(defaultTT.maTinhTrang);
+            else if (ts.length > 0) setMaTinhTrangMacDinh(ts[0].maTinhTrang);
         }
         setIsLoading(false);
     };
@@ -58,13 +69,26 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
         }
         setAddError("");
         startTransition(async () => {
-            const result = await addPhongAction(maLoaiPhong, soPhong.trim(), maTinhTrang);
+            const result = await addPhongAction(maLoaiPhong, soPhong.trim(), maTinhTrangMacDinh);
             if (result.success) {
                 setSoPhong("");
                 setShowAddForm(false);
                 await loadData();
             } else {
                 setAddError(result.message || "Lỗi thêm phòng.");
+            }
+        });
+    };
+
+    const handleUpdate = () => {
+        if (!editingId || !editSoPhong.trim()) return;
+        startTransition(async () => {
+            const result = await updatePhongAction(editingId, editSoPhong.trim(), editMaTinhTrang);
+            if (result.success) {
+                setEditingId(null);
+                await loadData();
+            } else {
+                alert("Lỗi cập nhật: " + result.message);
             }
         });
     };
@@ -104,7 +128,7 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[9999]">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col mx-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col mx-4 font-['Times_New_Roman']">
                 {/* Header */}
                 <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
                     <div>
@@ -145,28 +169,15 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
                                     className="w-full text-gray-500 px-3 py-2 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none text-sm"
                                 />
                             </div>
-                            <div className="flex-1 space-y-1">
-                                <label className="text-xs font-semibold text-gray-600">Tình trạng</label>
-                                <select
-                                    value={maTinhTrang}
-                                    onChange={(e) => setMaTinhTrang(parseInt(e.target.value))}
-                                    className="w-full text-gray-500 px-3 py-2 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none text-sm"
-                                >
-                                    {tinhTrangs.map(t => (
-                                        <option key={t.maTinhTrang} value={t.maTinhTrang}>{t.tenTinhTrang}</option>
-                                    ))}
-                                    {tinhTrangs.length === 0 && <option value={1}>Trống</option>}
-                                </select>
-                            </div>
                             <button
                                 onClick={handleAdd}
                                 disabled={isPending}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-blue-400 transition whitespace-nowrap"
+                                className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-blue-400 transition shadow-md whitespace-nowrap mb-0.5"
                             >
-                                {isPending ? "Đang lưu..." : "Thêm"}
+                                {isPending ? "Đang lưu..." : "Thêm phòng"}
                             </button>
                         </div>
-                        {addError && <p className="text-red-600 text-xs mt-2 font-medium">{addError}</p>}
+                        {addError && <p className="text-red-600 text-[11px] mt-2 font-medium tracking-wide">⚠️ {addError}</p>}
                     </div>
                 )}
 
@@ -183,31 +194,95 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {phongs.map((p) => (
-                                <div key={p.maPhong} className="flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white hover:shadow-sm transition">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center font-bold text-blue-700 text-sm">
-                                            {p.soPhong}
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-gray-800">Phòng {p.soPhong}</p>
-                                            <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${getTinhTrangColor(p.tenTinhTrang)}`}>
-                                                {p.tenTinhTrang || "Không rõ"}
-                                            </span>
-                                        </div>
+                            {phongs.map((p) => {
+                                const isEditing = editingId === p.maPhong;
+                                
+                                return (
+                                    <div key={p.maPhong} className={`flex flex-col p-4 border rounded-xl transition ${isEditing ? 'border-blue-400 bg-white shadow-md' : 'border-gray-200 bg-gray-50 hover:bg-white hover:shadow-sm'}`}>
+                                        {isEditing ? (
+                                            <div className="space-y-3">
+                                                <div className="flex gap-2">
+                                                    <div className="flex-1">
+                                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Số phòng</label>
+                                                        <input 
+                                                            type="text" 
+                                                            value={editSoPhong} 
+                                                            onChange={(e) => setEditSoPhong(e.target.value)}
+                                                            className="w-full text-gray-800 px-2 py-1 border border-slate-200 rounded-lg focus:border-blue-500 outline-none text-sm font-bold"
+                                                        />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <label className="text-[10px] font-bold text-gray-400 uppercase">Trạng thái</label>
+                                                        <select 
+                                                            value={editMaTinhTrang} 
+                                                            onChange={(e) => setEditMaTinhTrang(parseInt(e.target.value))}
+                                                            className="w-full text-gray-800 px-2 py-1 border border-slate-200 rounded-lg focus:border-blue-500 outline-none text-sm"
+                                                        >
+                                                            {tinhTrangs.map(tt => (
+                                                                <option key={tt.maTinhTrang} value={tt.maTinhTrang}>{tt.tenTinhTrang}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-end gap-2 pt-1">
+                                                    <button 
+                                                        onClick={() => setEditingId(null)}
+                                                        className="px-3 py-1 text-xs font-bold text-gray-500 hover:text-gray-700"
+                                                    >
+                                                        Hủy
+                                                    </button>
+                                                    <button 
+                                                        onClick={handleUpdate}
+                                                        disabled={isPending}
+                                                        className="px-4 py-1.5 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 shadow-sm"
+                                                    >
+                                                        {isPending ? "..." : "Lưu"}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center font-bold text-blue-700 text-sm">
+                                                        {p.soPhong}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-bold text-gray-800">Phòng {p.soPhong}</p>
+                                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${getTinhTrangColor(p.tenTinhTrang)}`}>
+                                                            {p.tenTinhTrang || "Không rõ"}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-1">
+                                                    <button
+                                                        onClick={() => {
+                                                            setEditingId(p.maPhong);
+                                                            setEditSoPhong(p.soPhong);
+                                                            setEditMaTinhTrang(p.maTinhTrang || 1);
+                                                        }}
+                                                        className="p-1.5 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                                        title="Sửa phòng"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(p.maPhong, p.soPhong)}
+                                                        disabled={isPending}
+                                                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                        title="Xóa phòng này"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                    <button
-                                        onClick={() => handleDelete(p.maPhong, p.soPhong)}
-                                        disabled={isPending}
-                                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
-                                        title="Xóa phòng này"
-                                    >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     )}
                 </div>
