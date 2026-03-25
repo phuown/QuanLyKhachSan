@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, ChangeEvent } from "react";
 import { addRoomTypeAction } from "./actions";
 
 export default function AddRoomModal({ onClose }: { onClose: () => void }) {
@@ -11,39 +11,73 @@ export default function AddRoomModal({ onClose }: { onClose: () => void }) {
     const [gia, setGia] = useState("");
     const [dienTich, setDienTich] = useState("");
     const [soNguoi, setSoNguoi] = useState("");
-    const [anhChinh, setAnhChinh] = useState("");
-    const [anhPhu, setAnhPhu] = useState<string[]>([""]);
+
+    // File states
+    const [anhChinh, setAnhChinh] = useState<File | null>(null);
+    const [anhPhu, setAnhPhu] = useState<(File | null)[]>([null]);
+
+    // Preview states
+    const [anhChinhPreview, setAnhChinhPreview] = useState("");
+    const [anhPhuPreviews, setAnhPhuPreviews] = useState<string[]>([""]);
+
+    const handleAnhChinhChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setAnhChinh(file);
+            setAnhChinhPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleAnhPhuChange = (idx: number, e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const updatedFiles = [...anhPhu];
+            updatedFiles[idx] = file;
+            setAnhPhu(updatedFiles);
+
+            const updatedPreviews = [...anhPhuPreviews];
+            updatedPreviews[idx] = URL.createObjectURL(file);
+            setAnhPhuPreviews(updatedPreviews);
+        }
+    };
+
+    const addImageField = () => {
+        setAnhPhu([...anhPhu, null]);
+        setAnhPhuPreviews([...anhPhuPreviews, ""]);
+    };
+
+    const removeImageField = (idx: number) => {
+        setAnhPhu(anhPhu.filter((_, i) => i !== idx));
+        setAnhPhuPreviews(anhPhuPreviews.filter((_, i) => i !== idx));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!tenLoaiPhong || !moTa || !gia) {
+        if (!tenLoaiPhong || !gia) {
             alert("Vui lòng điền đầy đủ các trường bắt buộc.");
             return;
         }
+
+        const formData = new FormData();
+        formData.append("tenLoaiPhong", tenLoaiPhong);
+        formData.append("moTa", moTa);
+        formData.append("gia", gia);
+        if (dienTich) formData.append("dienTich", dienTich);
+        if (soNguoi) formData.append("soNguoi", soNguoi);
+        if (anhChinh) formData.append("anhChinh", anhChinh);
+
+        anhPhu.forEach((file) => {
+            if (file) formData.append("anhPhu", file);
+        });
+
         startTransition(async () => {
-            const result = await addRoomTypeAction({
-                tenLoaiPhong,
-                moTa,
-                gia: parseInt(gia),
-                dienTich: dienTich ? parseInt(dienTich) : null,
-                soNguoi: soNguoi ? parseInt(soNguoi) : null,
-                anhChinh,
-                anhPhu,
-            });
+            const result = await addRoomTypeAction(formData);
             if (result.success) {
                 onClose();
             } else {
                 alert("Lỗi: " + result.message);
             }
         });
-    };
-
-    const addImageField = () => setAnhPhu([...anhPhu, ""]);
-    const removeImageField = (idx: number) => setAnhPhu(anhPhu.filter((_, i) => i !== idx));
-    const updateImageField = (idx: number, val: string) => {
-        const updated = [...anhPhu];
-        updated[idx] = val;
-        setAnhPhu(updated);
     };
 
     return (
@@ -73,9 +107,9 @@ export default function AddRoomModal({ onClose }: { onClose: () => void }) {
 
                     {/* Mô tả */}
                     <div className="space-y-1">
-                        <label className="text-sm font-semibold text-gray-700">Mô tả <span className="text-red-500">*</span></label>
+                        <label className="text-sm font-semibold text-gray-700">Mô tả</label>
                         <textarea
-                            required rows={3}
+                            rows={3}
                             placeholder="Mô tả chi tiết về loại phòng..."
                             value={moTa}
                             onChange={(e) => setMoTa(e.target.value)}
@@ -118,42 +152,66 @@ export default function AddRoomModal({ onClose }: { onClose: () => void }) {
                     </div>
 
                     {/* Ảnh chính */}
-                    <div className="space-y-1">
-                        <label className="text-sm font-semibold text-gray-700">Ảnh chính</label>
-                        <input
-                            type="text"
-                            placeholder="/uploads/..."
-                            value={anhChinh}
-                            onChange={(e) => setAnhChinh(e.target.value)}
-                            className="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800"
-                        />
-                        {anhChinh && (
-                            <img src={anhChinh} alt="Preview ảnh chính" className="mt-2 rounded-xl w-full h-40 object-cover border" onError={(e) => (e.currentTarget.style.display = "none")} />
+                    <div className="space-y-2">
+                        <label className="text-sm font-semibold text-gray-700">Ảnh chính (Từ máy tính)</label>
+                        <div className="flex items-center gap-4">
+                            <label className="cursor-pointer flex-1">
+                                <div className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition">
+                                    <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                    <span className="text-sm font-medium text-slate-600">{anhChinh ? anhChinh.name : "Chọn ảnh từ PC"}</span>
+                                </div>
+                                <input type="file" accept="image/*" className="hidden" onChange={handleAnhChinhChange} />
+                            </label>
+                        </div>
+                        {anhChinhPreview && (
+                            <div className="relative mt-2 rounded-xl overflow-hidden border-2 border-blue-100 h-48 w-full">
+                                <img src={anhChinhPreview} alt="Preview chính" className="w-full h-full object-cover" />
+                                <button type="button" onClick={() => { setAnhChinh(null); setAnhChinhPreview(""); }} className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg hover:bg-red-600 transition">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
                         )}
                     </div>
 
                     {/* Ảnh phụ */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-gray-700">Ảnh phụ (từ bảng AnhLoaiPhong)</label>
-                        {anhPhu.map((url, idx) => (
-                            <div key={idx} className="flex gap-2 items-center">
-                                <input
-                                    type="text"
-                                    placeholder={`Ảnh phụ ${idx + 1}`}
-                                    value={url}
-                                    onChange={(e) => updateImageField(idx, e.target.value)}
-                                    className="flex-1 p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none text-slate-800"
-                                />
-                                {anhPhu.length > 1 && (
-                                    <button type="button" onClick={() => removeImageField(idx)} className="text-red-400 hover:text-red-600 transition p-2">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                        <button type="button" onClick={addImageField} className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition">
+                    <div className="space-y-3">
+                        <label className="text-sm font-semibold text-gray-700">Ảnh phụ (Từ máy tính)</label>
+                        <div className="grid grid-cols-1 gap-3">
+                            {anhPhu.map((_, idx) => (
+                                <div key={idx} className="space-y-2">
+                                    <div className="flex gap-2 items-center">
+                                        <label className="cursor-pointer flex-1">
+                                            <div className="flex items-center justify-center gap-2 p-2.5 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition">
+                                                <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                                <span className="text-xs font-medium text-slate-600 truncate max-w-[200px]">{anhPhu[idx] ? anhPhu[idx]?.name : `Chọn ảnh phụ ${idx + 1}`}</span>
+                                            </div>
+                                            <input type="file" accept="image/*" className="hidden" onChange={(e) => handleAnhPhuChange(idx, e)} />
+                                        </label>
+                                        {anhPhu.length > 1 && (
+                                            <button type="button" onClick={() => removeImageField(idx)} className="text-red-400 hover:text-red-600 transition p-2 bg-red-50 rounded-lg">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            </button>
+                                        )}
+                                    </div>
+                                    {anhPhuPreviews[idx] && (
+                                        <div className="relative rounded-lg overflow-hidden border border-slate-100 h-24 w-40 group">
+                                            <img src={anhPhuPreviews[idx]} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                                <button type="button" onClick={() => {
+                                                    const upF = [...anhPhu]; upF[idx] = null; setAnhPhu(upF);
+                                                    const upP = [...anhPhuPreviews]; upP[idx] = ""; setAnhPhuPreviews(upP);
+                                                }} className="bg-red-500 text-white p-1 rounded-full">
+                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <button type="button" onClick={addImageField} className="text-sm text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1.5 transition bg-blue-50 px-4 py-2 rounded-xl">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
-                            Thêm ảnh phụ
+                            Thêm ảnh phụ mới
                         </button>
                     </div>
 
