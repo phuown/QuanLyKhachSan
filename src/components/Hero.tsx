@@ -1,10 +1,16 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const discoveryRef = useRef<HTMLDivElement>(null);
+
+  const scrollToDiscovery = () => {
+    discoveryRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const images = [
     "/uploads/anh_ks_ben_ngoai/Anh-mat-chinh-ks.jpg",
@@ -33,16 +39,33 @@ export default function Hero() {
             alt="Hotel Hero"
             fill
             priority={index === 0}
-            className={`object-contain transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+            className={`object-cover transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
               }`}
           />
         ))}
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-black/30 z-10"></div>
+
+        {/* Hero Content */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+          <div className="max-w-3xl mx-auto px-6 py-8 bg-black/10 backdrop-blur-sm rounded-[40px] text-center flex flex-col items-center border border-white/10 pointer-events-auto">
+            <h1 className="text-white text-3xl md:text-5xl font-extrabold leading-tight drop-shadow-2xl">
+              Chào mừng đến với khách sạn của chúng tôi <br /> hãy cùng khám phá nhé!!!
+            </h1>
+
+            <button
+              onClick={scrollToDiscovery}
+              className="mt-8 flex flex-col items-center gap-2 text-white hover:text-blue-300 transition-colors animate-bounce"
+            >
+              <span className="text-md font-semibold uppercase tracking-widest">Khám phá ngay</span>
+              <ChevronDown size={32} />
+            </button>
+          </div>
+        </div>
 
         {/* Slider dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
           {images.map((_, index) => (
             <button
               key={index}
@@ -58,202 +81,212 @@ export default function Hero() {
       </section>
 
       {/* DESCRIPTION SECTION */}
-      <section className="py-10 bg-gray-50">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
+      <section ref={discoveryRef} className="py-4 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-[#F5F1EE] rounded-3xl p-8 md:p-12 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-            {/* LEFT - TEXT */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Hãy cùng khám phá khách sạn ABC - Nơi sự sang trọng gặp gỡ sự thoải mái
-              </h2>
+              {/* LEFT - TEXT */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Hãy cùng khám phá khách sạn ABC - Nơi sự sang trọng gặp gỡ sự thoải mái
+                </h2>
 
-              <div className="text-gray-700 text-sm leading-relaxed space-y-3">
-                <p>
-                  Hãy trốn đến một góc thiên đường của trái đất
-                </p>
-                <p>
-                  Khu nghỉ dưỡng ven biển cao cấp 5 sao với những hồ bơi nước ngọt trước biển và những khu vườn xanh mát, tất cả trải dài trên bãi cát trắng mịn và hoang sơ tại vùng biển Bãi Dài tuyệt đẹp.
-                </p>
+                <div className="text-gray-700 text-sm leading-relaxed space-y-3">
+                  <p>
+                    Hãy trốn đến một góc thiên đường của trái đất
+                  </p>
+                  <p>
+                    Khu nghỉ dưỡng ven biển cao cấp 5 sao với những hồ bơi nước ngọt trước biển và những khu vườn xanh mát, tất cả trải dài trên bãi cát trắng mịn và hoang sơ tại vùng biển Bãi Dài tuyệt đẹp.
+                  </p>
 
-                <p>
-                  Đến đây, quý khách có cơ hội được thả bước quoanh các khu vườn kiểng được chăm chút hoặc dành những giây phút thư giãn tại trung tâm thể thao.
-                </p>
+                  <p>
+                    Đến đây, quý khách có cơ hội được thả bước quanh các khu vườn kiểng được chăm chút hoặc dành những giây phút thư giãn tại trung tâm thể thao.
+                  </p>
 
-                <p>
-                  Quý khách cũng có thể thư giãn qua các phương pháp trị liệu tại Rinata Oasis Spa hoặc làm đẹp tại trung tâm thẩm mỹ.
-                </p>
+                  <p>
+                    Quý khách cũng có thể thư giãn qua các phương pháp trị liệu tại Rinata Oasis Spa hoặc làm đẹp tại trung tâm thẩm mỹ.
+                  </p>
 
-                <p>
-                  Bên cạnh đó, hai nhà hàng và ba quầy bar phục vụ nguyên ngày là điểm thu hút vị giác cho các thị khách tới đây.
-                </p>
+                  <p>
+                    Bên cạnh đó, hai nhà hàng và ba quầy bar phục vụ nguyên ngày là điểm thu hút vị giác cho các thị khách tới đây.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* RIGHT - IMAGE */}
-            <div className="relative h-[300px]">
-              <Image
-                src="/uploads/anh_ks_ben_ngoai/anh_gioi_thieu.jpg"
-                alt="Hotel Description"
-                fill
-                className="object-cover rounded-lg shadow-lg"
-              />
-            </div>
+              {/* RIGHT - IMAGE */}
+              <div className="relative h-[300px]">
+                <Image
+                  src="/uploads/anh_ks_ben_ngoai/anh_gioi_thieu.jpg"
+                  alt="Hotel Description"
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                />
+              </div>
 
+            </div>
           </div>
         </div>
       </section>
 
       {/* ROOMS SECTION */}
-      <section className="py-10 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
+      <section className="py-4 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-white border border-gray-100 rounded-3xl p-8 md:p-12 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-            {/* LEFT - IMAGE */}
-            <div className="relative h-[300px]">
-              <Image
-                src="/uploads/anh_loai_phong/sanh_cho.jpg"
-                alt="Luxury Rooms"
-                fill
-                className="object-cover rounded-lg shadow-lg"
-              />
-            </div>
-
-            {/* RIGHT - TEXT */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Hệ thống phòng lưu trú
-              </h2>
-
-              <div className="text-gray-700 text-sm leading-relaxed space-y-3">
-                <p>
-                  Khám phá không gian nghỉ ngơi lý tưởng với thiết kế hiện đại, đầy đủ tiện nghi. Khách sạn ABC cung cấp đa dạng các hạng phòng từ Superior, Deluxe đến các căn Suite sang trọng.
-                </p>
-                <p>
-                  Hệ thống phòng được trang bị đầy đủ các thiết bị công nghệ hiện đại, nội thất cao cấp cùng dịch vụ phòng chuyên nghiệp, đảm bảo mang đến cho quý khách một giấc ngủ ngon và những giây phút nghỉ ngơi đúng nghĩa.
-                </p>
+              {/* LEFT - IMAGE */}
+              <div className="relative h-[300px]">
+                <Image
+                  src="/uploads/anh_loai_phong/sanh_cho.jpg"
+                  alt="Luxury Rooms"
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                />
               </div>
 
-              <Link href="/our-rooms" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold">
-                Khám phá chi tiết
-              </Link>
-            </div>
+              {/* RIGHT - TEXT */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Hệ thống phòng lưu trú
+                </h2>
 
-          </div>
-        </div>
-      </section>
+                <div className="text-gray-700 text-sm leading-relaxed space-y-3">
+                  <p>
+                    Khám phá không gian nghỉ ngơi lý tưởng với thiết kế hiện đại, đầy đủ tiện nghi. Khách sạn ABC cung cấp đa dạng các hạng phòng từ Superior, Deluxe đến các căn Suite sang trọng.
+                  </p>
+                  <p>
+                    Hệ thống phòng được trang bị đầy đủ các thiết bị công nghệ hiện đại, nội thất cao cấp cùng dịch vụ phòng chuyên nghiệp, đảm bảo mang đến cho quý khách một giấc ngủ ngon và những giây phút nghỉ ngơi đúng nghĩa.
+                  </p>
+                </div>
 
-      <section className="py-10 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-
-            {/* LEFT - IMAGE */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Nhà hàng & quầy Bar
-              </h2>
-
-              <div className="text-gray-700 text-sm leading-relaxed space-y-3">
-                <p>
-                  Dưới bàn tay đầy sáng tạo của đầu bếp lành nghề cùng với sự kết hợp của các nguyên liệu tươi ngon tại địa phương tạo nên những món ăn hấp dẫn và giữ nguyên hương vị vốn có. Cùng với không gian trang nhã và dịch vụ chu đáo, tận tình, mỗi địa điểm ăn uống tại ABC Hotel luôn tạo ra một khoảnh khắc tuyệt vời của cuộc sống.
-                </p>
+                <Link href="/our-rooms" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold">
+                  Khám phá chi tiết
+                </Link>
               </div>
 
-              <Link href="/restaurant" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold">
-                Khám phá chi tiết
-              </Link>
             </div>
-            {/* RIGHT - TEXT */}
-            <div className="relative h-[250px]">
-              <Image
-                src="/uploads/nhahang_bar/gioi-thieu-nha-hang.jpg"
-                alt="Hotel Description"
-                fill
-                className="object-cover rounded-lg shadow-lg"
-              />
-            </div>
-
           </div>
         </div>
       </section>
 
-      <section className="py-10 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
+      <section className="py-4 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-[#F5F1EE] rounded-3xl p-8 md:p-12 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-            {/* LEFT - TEXT */}
-            <div className="relative h-[300px]">
-              <Image
-                src="/uploads/vuichoi/vuichoi.jpg"
-                alt="Entertainment"
-                fill
-                className="object-cover rounded-lg shadow-lg"
-              />
+              {/* LEFT - IMAGE */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Nhà hàng & quầy Bar
+                </h2>
+
+                <div className="text-gray-700 text-sm leading-relaxed space-y-3">
+                  <p>
+                    Dưới bàn tay đầy sáng tạo của đầu bếp lành nghề cùng với sự kết hợp của các nguyên liệu tươi ngon tại địa phương tạo nên những món ăn hấp dẫn và giữ nguyên hương vị vốn có. Cùng với không gian trang nhã và dịch vụ chu đáo, tận tình, mỗi địa điểm ăn uống tại ABC Hotel luôn tạo ra một khoảnh khắc tuyệt vời của cuộc sống.
+                  </p>
+                </div>
+
+                <Link href="/restaurant" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold">
+                  Khám phá chi tiết
+                </Link>
+              </div>
+              {/* RIGHT - TEXT */}
+              <div className="relative h-[250px]">
+                <Image
+                  src="/uploads/nhahang_bar/gioi-thieu-nha-hang.jpg"
+                  alt="Hotel Description"
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                />
+              </div>
+
             </div>
-
-            {/* RIGHT - IMAGE */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Các hoạt động giải trí
-              </h2>
-
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Bạn vừa thoát khỏi những lo toan thường nhật và đang háo hức chờ đón kỳ nghỉ. Hãy gạt bỏ mọi căng thẳng, đội ngũ hoạt động giải trí của chúng tôi đã chuẩn bị một chương trình thú vị và hấp dẫn dành cho mọi lứa tuổi và sở thích.
-              </p>
-
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Ban ngày, các hoạt động như thể dục dưới nước, Yoga, Zumba, chiếu phim hoạt hình được tổ chức tại hồ bơi hoặc bãi biển.
-              </p>
-
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Buổi tối, các chương trình thư giãn khác nhau được lên kế hoạch mỗi đêm với âm nhạc, biểu diễn và các cuộc thi.
-              </p>
-
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Bên cạnh việc đảm bảo các vị khách nhỏ tuổi của khu nghỉ dưỡng được vui chơi thỏa thích, đội ngũ hoạt động giải trí chuyên nghiệp của chúng tôi cũng tổ chức các chương trình riêng biệt dành cho thanh thiếu niên và trẻ em.
-              </p>
-
-              <Link href="/entertainment" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
-                Khám phá chi tiết
-              </Link>
-            </div>
-
           </div>
         </div>
       </section>
 
-      <section className="py-10 bg-gray-50">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
+      <section className="py-4 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-white border border-gray-100 rounded-3xl p-8 md:p-12 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-            {/* LEFT - IMAGE */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Thiên đường vui chơi
-              </h2>
+              {/* LEFT - TEXT */}
+              <div className="relative h-[300px]">
+                <Image
+                  src="/uploads/vuichoi/vuichoi.jpg"
+                  alt="Entertainment"
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                />
+              </div>
 
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Khách sạn ABC Hotel cung cấp một loạt các khu vui chơi hiện đại.
-              </p>
+              {/* RIGHT - IMAGE */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Các hoạt động giải trí
+                </h2>
 
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Hoạt động vui chơi công viên nước ngoài trời phù hợp với mọi độ tuổi, sở thích của đa số các khách hàng đến đây.
-              </p>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Bạn vừa thoát khỏi những lo toan thường nhật và đang háo hức chờ đón kỳ nghỉ. Hãy gạt bỏ mọi căng thẳng, đội ngũ hoạt động giải trí của chúng tôi đã chuẩn bị một chương trình thú vị và hấp dẫn dành cho mọi lứa tuổi và sở thích.
+                </p>
 
-              <Link href="/game" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
-                Khám phá chi tiết
-              </Link>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Ban ngày, các hoạt động như thể dục dưới nước, Yoga, Zumba, chiếu phim hoạt hình được tổ chức tại hồ bơi hoặc bãi biển.
+                </p>
+
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Buổi tối, các chương trình thư giãn khác nhau được lên kế hoạch mỗi đêm với âm nhạc, biểu diễn và các cuộc thi.
+                </p>
+
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Bên cạnh việc đảm bảo các vị khách nhỏ tuổi của khu nghỉ dưỡng được vui chơi thỏa thích, đội ngũ hoạt động giải trí chuyên nghiệp của chúng tôi cũng tổ chức các chương trình riêng biệt dành cho thanh thiếu niên và trẻ em.
+                </p>
+
+                <Link href="/entertainment" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
+                  Khám phá chi tiết
+                </Link>
+              </div>
+
             </div>
-            {/* RIGHT - TEXT */}
-            <div className="relative h-[300px]">
-              <Image
-                src="/uploads/vuichoi/cvnuoc.jpg"
-                alt="Hotel Description"
-                fill
-                className="object-cover rounded-lg shadow-lg"
-              />
-            </div>
+          </div>
+        </div>
+      </section>
 
+      <section className="py-4 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-[#F5F1EE] rounded-3xl p-8 md:p-12 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+              {/* LEFT - IMAGE */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Thiên đường vui chơi
+                </h2>
+
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Khách sạn ABC Hotel cung cấp một loạt các khu vui chơi hiện đại.
+                </p>
+
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Hoạt động vui chơi công viên nước ngoài trời phù hợp với mọi độ tuổi, sở thích của đa số các khách hàng đến đây.
+                </p>
+
+                <Link href="/game" className="inline-block bg-blue-400 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
+                  Khám phá chi tiết
+                </Link>
+              </div>
+              {/* RIGHT - TEXT */}
+              <div className="relative h-[300px]">
+                <Image
+                  src="/uploads/vuichoi/cvnuoc.jpg"
+                  alt="Hotel Description"
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                />
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
