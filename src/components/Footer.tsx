@@ -9,8 +9,7 @@ export default function Footer() {
                     {/* Brand Info */}
                     <div className="space-y-4 flex flex-col items-center text-center">
                         <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 bg-blue-600 rounded-md"></div>
-                            <span className="text-xl font-black text-white tracking-tighter">ABC Hotel</span>
+                            <span className="text-xl font-black text-white tracking-tighter">🏨 ABC Hotel</span>
                         </div>
                         <p className="text-sm leading-relaxed opacity-70">
                             Trải nghiệm sự sang trọng và tiện nghi bậc nhất tại khách sạn của chúng tôi. Chúng tôi cam kết mang đến những kỳ nghỉ khó quên cho mọi khách hàng.
