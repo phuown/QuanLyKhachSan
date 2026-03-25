@@ -112,3 +112,57 @@ export async function validatePromotionAction(maCode: string, maLoaiPhong: numbe
         return { success: false, message: "Lỗi hệ thống khi kiểm tra mã." };
     }
 }
+
+export async function getKhuyenMaiByIdAction(maKhuyenMai: number) {
+    try {
+        const promotion = await db.select().from(KhuyenMai).where(eq(KhuyenMai.maKhuyenMai, maKhuyenMai));
+        if (promotion.length === 0) return { success: false, message: "Không tìm thấy khuyến mãi." };
+
+        const details = await db.select().from(ChiTietKhuyenMai).where(eq(ChiTietKhuyenMai.maKhuyenMai, maKhuyenMai));
+
+        return { success: true, data: { ...promotion[0], chiTiet: details } };
+    } catch (error: any) {
+        return { success: false, message: error.message };
+    }
+}
+
+export async function updateKhuyenMaiAction(maKhuyenMai: number, formData: {
+    maCode: string;
+    tenKhuyenMai: string;
+    noiDung: string;
+    ngayBatDau: string;
+    ngayKetThuc: string;
+    chiTiet: { maLoaiPhong: number; giamGia: number; trangThai: boolean }[];
+}) {
+    try {
+        await db.update(KhuyenMai)
+            .set({
+                maCode: formData.maCode,
+                tenKhuyenMai: formData.tenKhuyenMai,
+                noiDung: formData.noiDung,
+                ngayBatDau: formData.ngayBatDau,
+                ngayKetThuc: formData.ngayKetThuc,
+            })
+            .where(eq(KhuyenMai.maKhuyenMai, maKhuyenMai));
+
+        // Xóa chi tiết cũ và thêm mới (đơn giản nhất)
+        await db.delete(ChiTietKhuyenMai).where(eq(ChiTietKhuyenMai.maKhuyenMai, maKhuyenMai));
+
+        if (formData.chiTiet.length > 0) {
+            await db.insert(ChiTietKhuyenMai).values(
+                formData.chiTiet.map((ct) => ({
+                    maKhuyenMai,
+                    maLoaiPhong: ct.maLoaiPhong,
+                    giamGia: ct.giamGia,
+                    trangThai: ct.trangThai,
+                }))
+            );
+        }
+
+        revalidatePath("/admin/khuyenmai");
+        return { success: true };
+    } catch (error: any) {
+        console.error("Lỗi cập nhật khuyến mãi:", error);
+        return { success: false, message: error.message || "Đã xảy ra lỗi." };
+    }
+}
