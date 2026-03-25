@@ -64,7 +64,7 @@ export default function RoomsTypeClient({ rooms, images }: { rooms: RoomType[], 
 
                     <button
                         onClick={() => setShowModal(true)}
-                        className="px-2 py-1.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 shadow-md transition flex items-center gap-1.5 text-xs uppercase tracking-wider"
+                        className="px-2 py-2 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl shadow-lg shadow-blue-100 font-bold text-sm hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />

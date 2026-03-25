@@ -7,7 +7,7 @@ const STATUS_OPTIONS = [
     { value: "da_duyet", label: "Đã duyệt", cls: "bg-green-100 text-green-800" },
     { value: "da_nhan_phong", label: "Đã nhận phòng", cls: "bg-blue-100 text-blue-800" },
     { value: "da_tra_phong", label: "Đã trả phòng", cls: "bg-slate-100 text-slate-600" },
-    { value: "da_huy", label: "Đã hủy", cls: "bg-red-100 text-red-700" },
+    { value: "da_huy", label: "Hủy", cls: "bg-red-100 text-red-700" },
 ];
 
 export default function BookingStatusSelect({
