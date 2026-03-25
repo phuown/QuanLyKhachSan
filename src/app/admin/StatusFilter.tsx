@@ -21,7 +21,7 @@ export default function StatusFilter({ initialStatus }: { initialStatus?: string
             <select
                 defaultValue={initialStatus || "all"}
                 onChange={(e) => handleChange(e.target.value)}
-                className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-4 pr-10 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-blue-500 transition shadow-sm cursor-pointer font-medium"
+                className="appearance-none bg-white border border-gray-200 text-gray-500 py-1.5 pl-2.5 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-white focus:border-blue-500 transition shadow-sm cursor-pointer font-bold text-sm uppercase tracking-wider"
             >
                 <option value="all">Tất cả trạng thái</option>
                 <option value="da_duyet">Đã duyệt</option>
