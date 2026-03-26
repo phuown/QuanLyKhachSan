@@ -47,7 +47,6 @@ export default async function MyBookingsPage() {
         .where(eq(KhachHang.email, userEmail))
         .orderBy(desc(PhieuDatPhong.ngayDat));
 
-    // Group items by maPhieu to handle multiple room types per booking
     const groupedBookings = rawData.reduce((acc, current) => {
         const existing = acc.find(item => item.maPhieu === current.maPhieu);
         if (existing) {
@@ -154,7 +153,7 @@ export default async function MyBookingsPage() {
                                                         ))}
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div className="flex items-center gap-6 pt-2">
                                                     <div className="flex-1 p-3 bg-blue-50/30 rounded-2xl border border-blue-50/50">
                                                         <p className="text-[9px] uppercase font-black text-blue-300 mb-1">Nhận phòng</p>
@@ -174,7 +173,7 @@ export default async function MyBookingsPage() {
                                                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
                                                     </p>
                                                 </div>
-                                                
+
                                                 {(!booking.trangThai || booking.trangThai === "da_duyet") && (
                                                     <div className="w-full md:w-auto">
                                                         <CancelBookingButton maPhieu={booking.maPhieu} />
