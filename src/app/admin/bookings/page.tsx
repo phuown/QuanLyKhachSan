@@ -91,7 +91,7 @@ export default async function AdminBookingsPage(props: {
                             Tổng: {allBookings.length}
                         </div>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center" >
                             <StatusFilter initialStatus={statusFilter} />
                         </div>
 
