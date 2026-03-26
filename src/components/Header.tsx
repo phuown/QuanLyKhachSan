@@ -88,7 +88,6 @@ export default function Header() {
             <AuthModal />
           )}
         </div>
-
       </div>
     </header>
   );
