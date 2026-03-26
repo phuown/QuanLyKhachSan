@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { deleteRoomTypeAction } from "./actions";
 import AddRoomModal from "./AddLoaiPhong";
 import EditRoomModal from "./EditLoaiPhong";
-import PhongDetailModal from "./PhongDetail";
+import RoomsDetailModal from "./RoomsDetail";
 import Image from "next/image";
 
 interface RoomType {
@@ -47,13 +47,12 @@ export default function RoomsTypeClient({ rooms, images }: { rooms: RoomType[], 
 
     return (
         <>
-            {/* Header section with Title, Total count and Add button */}
             <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-800">Quản lý Loại Phòng</h1>
                     <p className="text-gray-500 text-base mt-1.5 opacity-80">Danh sách và giới thiệu chi tiết về các loại phòng</p>
                 </div>
-
+                {/*Button thêm mới loại phòng & tổng loại phòng hiện có*/}
                 <div className="flex items-center gap-2">
                     <div className="bg-white px-2.5 py-1.5 rounded-xl shadow-sm font-bold text-blue-600 border border-blue-50 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                         <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +73,7 @@ export default function RoomsTypeClient({ rooms, images }: { rooms: RoomType[], 
                 </div>
             </header>
 
-            {/* Room list */}
+            {/*Danh sách chi tiết về các loại phòng*/}
             <div className="grid grid-cols-1 gap-8">
                 {rooms.map((room) => {
                     const roomImages = imagesByRoomType[room.maLoaiPhong] || [];
@@ -129,7 +128,6 @@ export default function RoomsTypeClient({ rooms, images }: { rooms: RoomType[], 
                             </div>
 
                             <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {/* Info */}
                                 <div className="space-y-3">
                                     <h3 className="font-semibold text-gray-500 text-xs uppercase tracking-wider">Thông tin chi tiết</h3>
                                     <div className="space-y-2">
@@ -150,7 +148,6 @@ export default function RoomsTypeClient({ rooms, images }: { rooms: RoomType[], 
                                     )}
                                 </div>
 
-                                {/* Images */}
                                 <div className="md:col-span-2">
                                     <h3 className="font-semibold text-gray-500 text-xs uppercase tracking-wider mb-3">
                                         Hình ảnh ({allImages.length} ảnh)
@@ -202,7 +199,7 @@ export default function RoomsTypeClient({ rooms, images }: { rooms: RoomType[], 
                 />
             )}
             {selectedRoom && (
-                <PhongDetailModal
+                <RoomsDetailModal
                     maLoaiPhong={selectedRoom.maLoaiPhong}
                     tenLoaiPhong={selectedRoom.tenLoaiPhong}
                     onClose={() => setSelectedRoom(null)}
