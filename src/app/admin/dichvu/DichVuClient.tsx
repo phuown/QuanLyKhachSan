@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Edit2, Trash2, Package, ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+import { useState, Fragment } from "react";
+import { Plus, Edit2, Trash2, Package, ArrowDownCircle, ArrowUpCircle, Eye, Settings2 } from "lucide-react";
 import { deleteDichVuAction, addDichVuAction, updateDichVuAction } from "./actions";
 import Link from "next/link";
 
@@ -15,6 +15,7 @@ interface DichVu {
 export default function DichVuClient({ services }: { services: DichVu[] }) {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [editingService, setEditingService] = useState<DichVu | null>(null);
+    const [expandedId, setExpandedId] = useState<number | null>(null);
 
     const handleDelete = async (id: number) => {
         if (confirm("Bạn có chắc chắn muốn xóa dịch vụ này?")) {
@@ -34,8 +35,9 @@ export default function DichVuClient({ services }: { services: DichVu[] }) {
                     <div className="relative group min-w-[300px]">
                         <input
                             type="text"
+                            name="search"
                             placeholder="Tìm tên dịch vụ..."
-                            className="w-full pl-11 pr-5 py-2.5 bg-white border border-gray-700 rounded-2xl text-sm font-bold placeholder:font-medium focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all shadow-sm group-hover:shadow-md"
+                            className="w-full pl-11 pr-5 py-2.5 bg-white border border-gray-200 rounded-2xl text-sm font-medium text-gray-900 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all shadow-sm group-hover:shadow-md"
                         />
                         <svg className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -71,59 +73,106 @@ export default function DichVuClient({ services }: { services: DichVu[] }) {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-gray-50/80 text-gray-400 text-[11px] font-bold uppercase tracking-[0.15em] border-b border-gray-100 italic">
-                                <th className="px-6 py-4 font-bold w-32">MÃ DỊCH VỤ</th>
-                                <th className="px-6 py-4 font-bold">THÔNG TIN DỊCH VỤ</th>
-                                <th className="px-6 py-4 font-bold text-center">ĐƠN VỊ TÍNH</th>
-                                <th className="px-6 py-4 font-bold text-right w-64">ĐƠN GIÁ NIÊM YẾT</th>
-                                <th className="px-6 py-4 font-bold text-center w-32">THAO TÁC</th>
+                                <th className="px-4 py-3 font-bold w-24">MÃ DỊCH VỤ</th>
+                                <th className="px-4 py-3 font-bold">THÔNG TIN DỊCH VỤ</th>
+                                <th className="px-4 py-3 font-bold text-center">ĐƠN VỊ TÍNH</th>
+                                <th className="px-4 py-3 font-bold text-right w-48">ĐƠN GIÁ NIÊM YẾT</th>
+                                <th className="px-4 py-3 font-bold text-center w-28">THAO TÁC</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {services.map((s) => (
-                                <tr key={s.maDichVu} className="hover:bg-blue-50/20 transition-all border-b border-gray-50/50 last:border-0 group">
-                                    <td className="px-6 py-4">
-                                        <span className="font-mono font-black text-xs text-blue-600 px-3 py-2 bg-blue-50/60 rounded-lg border border-blue-100/50 shadow-sm transition-transform group-hover:scale-105 inline-block">#{s.maDichVu}</span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-blue-50 text-blue-500 rounded-2xl group-hover:rotate-12 transition-transform shadow-sm border border-blue-100/20">
-                                                <Package size={22} />
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="font-bold text-gray-900 text-lg tracking-tight leading-none mb-1">{s.tenDichVu}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <span className="inline-flex px-4 py-1.5 bg-slate-100/80 text-slate-500 text-[10px] font-black rounded-full uppercase tracking-widest border border-slate-200/50 italic">
-                                            {s.donVi}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex flex-col items-end">
-                                            <span className="font-black text-blue-600 text-xl tracking-tighter leading-none mb-1">
-                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(s.gia)}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-3">
-                                        <div className="flex justify-center items-center gap-2">
-                                            <button
-                                                onClick={() => setEditingService(s)}
-                                                className="p-2 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition"
-                                            >
-                                                <Edit2 size={18} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(s.maDichVu)}
-                                                className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition"
-                                            >
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                            {services.map((s) => {
+                                const isExpanded = expandedId === s.maDichVu;
+                                return (
+                                    <Fragment key={s.maDichVu}>
+                                        <tr
+                                            onClick={() => setExpandedId(isExpanded ? null : s.maDichVu)}
+                                            className={`hover:bg-blue-50/20 transition-all border-b border-gray-50/50 last:border-0 group cursor-pointer ${isExpanded ? 'bg-blue-50/40 shadow-inner' : ''}`}
+                                        >
+                                            <td className="px-4 py-3">
+                                                <span className="font-mono font-black text-[10px] text-blue-600 px-2 py-1 bg-blue-50/60 rounded-lg border border-blue-100/50 shadow-sm transition-transform group-hover:scale-105 inline-block">#{s.maDichVu}</span>
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="p-2 bg-blue-50 text-blue-500 rounded-xl group-hover:rotate-12 transition-transform shadow-sm border border-blue-100/20">
+                                                        <Package size={18} />
+                                                    </div>
+                                                    <div className="flex flex-col">
+                                                        <span className="font-bold text-gray-900 text-medium tracking-tight leading-none">{s.tenDichVu}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3 text-center">
+                                                <span className="inline-flex px-3 py-1 bg-slate-100/80 text-slate-500 text-[9px] font-black rounded-full uppercase tracking-widest border border-slate-200/50 italic">
+                                                    {s.donVi}
+                                                </span>
+                                            </td>
+                                            <td className="px-4 py-3 text-right">
+                                                <div className="flex flex-col items-end">
+                                                    <span className="font-black text-blue-600 text-base tracking-tighter leading-none">
+                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(s.gia)}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex justify-center items-center gap-1.5">
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setExpandedId(isExpanded ? null : s.maDichVu);
+                                                        }}
+                                                        className={`p-1.5 rounded-lg transition ${isExpanded ? 'bg-blue-600 text-white' : 'text-blue-400 hover:text-blue-600 hover:bg-blue-50'}`}
+                                                    >
+                                                        <Eye size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); setEditingService(s); }}
+                                                        className="p-1.5 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                                    >
+                                                        <Edit2 size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); handleDelete(s.maDichVu); }}
+                                                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {isExpanded && (
+                                            <tr>
+                                                <td colSpan={5} className="px-6 py-4 bg-gray-50/50 animate-in slide-in-from-top-2 duration-300">
+                                                    <div className="flex flex-col md:flex-row justify-between items-center gap-6 p-6 bg-white rounded-[2rem] border border-blue-100 shadow-xl shadow-blue-50/50 relative overflow-hidden">
+                                                        <div className="absolute top-0 right-0 p-8 opacity-[0.03] text-blue-900 rotate-12">
+                                                            <Settings2 size={120} />
+                                                        </div>
+                                                        <div className="flex-1 space-y-4 relative">
+                                                            <div className="flex items-center gap-4">
+                                                                <div className="h-10 w-1 bg-blue-500 rounded-full"></div>
+                                                                <div>
+                                                                    <p className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1">Thông tin chi tiết dịch vụ</p>
+                                                                    <h3 className="text-2xl font-black text-gray-900 tracking-tight">{s.tenDichVu}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div className="grid grid-cols-2 gap-8 pt-2">
+                                                                <div>
+                                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Đơn giá niêm yết</p>
+                                                                    <p className="text-xl font-black text-blue-600">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(s.gia)} / {s.donVi}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Mã định danh</p>
+                                                                    <p className="text-xl font-mono font-black text-gray-800">#SVC-{s.maDichVu.toString().padStart(4, '0')}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </Fragment>
+                                );
+                            })}
                             {services.length === 0 && (
                                 <tr>
                                     <td colSpan={5} className="px-8 py-24 text-center">
