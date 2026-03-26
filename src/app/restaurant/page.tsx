@@ -56,31 +56,30 @@ export default function RestaurantPage() {
         </div>
       </section>
 
-      {/* MAIN CONTENT */}
       <section className="py-10 bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          
-          {/* INTRODUCTION */}
+
+          {/* Giới thiệu nhà hàng */}
           <div className="mb-10">
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
               Trải Nghiệm Ẩm Thực Cao Cấp
             </h2>
-            
+
             <div className="grid md:grid-cols-2 gap-8 items-center mb-10">
               <div className="text-gray-600 text-sm leading-relaxed space-y-3">
                 <p>
                   Dưới bàn tay đầy sáng tạo của đầu bếp lành nghề cùng với sự kết hợp của các nguyên liệu tươi ngon tại địa phương tạo nên những món ăn hấp dẫn và giữ nguyên hương vị vốn có.
                 </p>
-                
+
                 <p>
                   Cùng với không gian trang nhã và dịch vụ chu đáo, tận tình, mỗi địa điểm ăn uống tại ABC Hotel luôn tạo ra một khoảnh khắc tuyệt vời của cuộc sống.
                 </p>
-                
+
                 <p>
                   Chúng tôi cung cấp các món ăn từ ẩm thực quốc tế đến các đặc sản địa phương, đảm bảo hài lòng mọi khẩu vị khách khách.
                 </p>
               </div>
-              
+
               <div className="relative h-[300px]">
                 <Image
                   src="/uploads/nhahang_bar/gioi_thieu_nha_hang_2.jpg"
@@ -92,44 +91,41 @@ export default function RestaurantPage() {
             </div>
           </div>
 
-          {/* RESTAURANT CARDS */}
+          {/* Các nhà hàng của chúng tôi */}
           <div className="mb-10">
             <h3 className="text-xl font-bold text-gray-800 mb-8 text-center">
               Các Nhà Hàng Của Chúng Tôi
             </h3>
-            
+
             <div className="grid md:grid-cols-2 gap-8">
-              
-              {/* RESTAURANT 1 */}
+
+              {/* Nhà hàng 1 */}
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
                 <div className="relative h-[220px]">
-                  {/* Image Carousel */}
+                  {/* Ảnh nhà hàng 1 */}
                   {premiumImages.map((img, index) => (
                     <Image
                       key={index}
                       src={img}
                       alt="Restaurant Premium"
                       fill
-                      className={`object-cover transition-opacity duration-1000 ${
-                        index === currentPremiumIndex ? "opacity-100" : "opacity-0"
-                      }`}
+                      className={`object-cover transition-opacity duration-1000 ${index === currentPremiumIndex ? "opacity-100" : "opacity-0"
+                        }`}
                     />
                   ))}
 
-                  {/* Dots */}
                   <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
                     {premiumImages.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentPremiumIndex(index)}
-                        className={`w-2 h-2 rounded-full transition ${
-                          index === currentPremiumIndex ? "bg-white" : "bg-white/50"
-                        }`}
+                        className={`w-2 h-2 rounded-full transition ${index === currentPremiumIndex ? "bg-white" : "bg-white/50"
+                          }`}
                       />
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="p-5">
                   <h4 className="text-lg font-bold text-gray-800 mb-2">
                     Nhà Hàng Cao Cấp
@@ -143,36 +139,33 @@ export default function RestaurantPage() {
                 </div>
               </div>
 
-              {/* RESTAURANT 2 */}
+              {/* Nhà hàng 2 */}
               <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
                 <div className="relative h-[220px]">
-                  {/* Image Carousel */}
+                  {/* Ảnh nhà hàng */}
                   {seafoodImages.map((img, index) => (
                     <Image
                       key={index}
                       src={img}
                       alt="Restaurant Seafood"
                       fill
-                      className={`object-cover transition-opacity duration-1000 ${
-                        index === currentImageIndex ? "opacity-100" : "opacity-0"
-                      }`}
+                      className={`object-cover transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+                        }`}
                     />
                   ))}
 
-                  {/* Dots */}
                   <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
                     {seafoodImages.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentImageIndex(index)}
-                        className={`w-2 h-2 rounded-full transition ${
-                          index === currentImageIndex ? "bg-white" : "bg-white/50"
-                        }`}
+                        className={`w-2 h-2 rounded-full transition ${index === currentImageIndex ? "bg-white" : "bg-white/50"
+                          }`}
                       />
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="p-5">
                   <h4 className="text-lg font-bold text-gray-800 mb-2">
                     Nhà Hàng Hải Sản
@@ -189,14 +182,14 @@ export default function RestaurantPage() {
             </div>
           </div>
 
-          {/* BAR SECTION */}
+          {/* Quầy bar của nhà hàng */}
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8">
             <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
               Quầy Bar Độc Đáo
             </h3>
-            
+
             <div className="grid md:grid-cols-3 gap-6">
-              
+
               <div className="text-center">
                 <div className="text-3xl mb-3">🍹</div>
                 <p className="text-gray-500 text-xs">
@@ -221,7 +214,7 @@ export default function RestaurantPage() {
             </div>
           </div>
 
-          {/* BAR IMAGES */}
+          {/* Ảnh quầy bar */}
           <div className="mt-10 mb-10">
             <div className="grid md:grid-cols-2 gap-8">
               <div className="relative h-[280px] rounded-lg overflow-hidden shadow-lg">
@@ -244,7 +237,6 @@ export default function RestaurantPage() {
             </div>
           </div>
 
-          {/* BACK TO HOME */}
           <div className="text-center">
             <Link href="/" className="inline-block bg-blue-400 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
               Quay lại Trang Chủ
