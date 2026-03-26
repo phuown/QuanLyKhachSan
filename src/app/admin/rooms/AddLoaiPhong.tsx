@@ -12,11 +12,9 @@ export default function AddRoomModal({ onClose }: { onClose: () => void }) {
     const [dienTich, setDienTich] = useState("");
     const [soNguoi, setSoNguoi] = useState("");
 
-    // File states
     const [anhChinh, setAnhChinh] = useState<File | null>(null);
     const [anhPhu, setAnhPhu] = useState<(File | null)[]>([null]);
 
-    // Preview states
     const [anhChinhPreview, setAnhChinhPreview] = useState("");
     const [anhPhuPreviews, setAnhPhuPreviews] = useState<string[]>([""]);
 
