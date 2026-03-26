@@ -101,88 +101,73 @@ export const ChiTietKhuyenMai = pgTable("ChiTietKhuyenMai", {
 }));
 
 
-// export const TienNghi = pgTable("TienNghi", {
-//   maTienNghi: serial("maTienNghi").primaryKey(),
-//   tenTienNghi: varchar("tenTienNghi", { length: 255 }).notNull(),
-//   moTa: text("moTa").notNull(),
-//   maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
-// });
+export const PhieuThanhToan = pgTable("PhieuThanhToan", {
+  maPhieuThanhToan: serial("maPhieuThanhToan").primaryKey(),
+  //  maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
+  ngayThanhToan: timestamp("ngayThanhToan").notNull(),
+  tongTien: integer("tongTien").notNull(),
+});
 
-// export const ChiTietTienNghi = pgTable("ChiTietTienNghi", {
-//   maPhong: integer("maPhong").notNull().references(() => Phong.maPhong),
-//   maTienNghi: integer("maTienNghi").notNull().references(() => TienNghi.maTienNghi),
-// }, (table) => ({
-//   unique_phong_tienNghi: uniqueIndex("unique_phong_tienNghi").on(table.maPhong, table.maTienNghi),
-// }));
+export const chiTietPhieuThanhToan = pgTable("chiTietPhieuThanhToan", {
+  maPhieuThanhToan: integer("maPhieuThanhToan").notNull().references(() => PhieuThanhToan.maPhieuThanhToan),
+  maKhachHang: integer("maKhachHang").notNull().references(() => KhachHang.maKhachHang),
+  maPhong: integer("maPhong").notNull().references(() => Phong.maPhong),
+  maKhuyenMai: integer("maKhuyenMai").references(() => KhuyenMai.maKhuyenMai),
+  //  maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
+  ngayDen: date("ngayDen").notNull(),
+  ngayDi: date("ngayDi").notNull(),
+  gioDen: timestamp("gioDen").notNull(),
+  gioTra: timestamp("gioTra").notNull(),
+  soLuongPhong: integer("soLuongPhong").notNull(),
+}, (table) => ({
+  unique_phieu_phong: uniqueIndex("unique_phieu_phong").on(table.maPhieuThanhToan, table.maPhong),
+}));
 
+export const DichVu = pgTable("DichVu", {
+  maDichVu: serial("maDichVu").primaryKey(),
+  tenDichVu: varchar("tenDichVu", { length: 255 }).notNull(),
+  donVi: text("donVi").notNull(),
+  gia: integer("gia").notNull(),
+});
 
-// export const PhieuThanhToan = pgTable("PhieuThanhToan", {
-//   maPhieuThanhToan: serial("maPhieuThanhToan").primaryKey(),
-//   maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
-//   ngayThanhToan: timestamp("ngayThanhToan").notNull(),
-//   tongTien: integer("tongTien").notNull(),
-// });
+export const SuDungDichVu = pgTable("SuDungDichVu", {
+  maPhieuThanhToan: integer("maPhieuThanhToan").notNull().references(() => PhieuThanhToan.maPhieuThanhToan),
+  maDichVu: integer("maDichVu").notNull().references(() => DichVu.maDichVu),
+  soLuong: integer("soLuong").notNull(),
+  ngaySuDung: timestamp("ngaySuDung").notNull(),
+}, (table) => ({
+  unique_phieu_dichvu: uniqueIndex("unique_phieu_sudungdichvu").on(table.maPhieuThanhToan, table.maDichVu),
+}));
 
-// export const chiTietPhieuThanhToan = pgTable("chiTietPhieuThanhToan", {
-//   maPhieuThanhToan: integer("maPhieuThanhToan").notNull().references(() => PhieuThanhToan.maPhieuThanhToan),
-//   maKhachHang: integer("maKhachHang").notNull().references(() => KhachHang.maKhachHang),
-//   maPhong: integer("maPhong").notNull().references(() => Phong.maPhong),
-//   maKhuyenMai: integer("maKhuyenMai").references(() => KhuyenMai.maKhuyenMai),
-//   maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
-//   ngayDen: date("ngayDen").notNull(),
-//   ngayDi: date("ngayDi").notNull(),
-//   gioDen: timestamp("gioDen").notNull(),
-//   gioTra: timestamp("gioTra").notNull(),
-//   soLuongPhong: integer("soLuongPhong").notNull(),
-// }, (table) => ({
-//   unique_phieu_phong: uniqueIndex("unique_phieu_phong").on(table.maPhieuThanhToan, table.maPhong),
-// }));
+export const PhieuNhapKho = pgTable("PhieuNhapKho", {
+  maPhieuNhapKho: serial("maPhieuNhapKho").primaryKey(),
+  //  maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
+  ngayNhap: timestamp("ngayNhap").notNull(),
+  tongTien: integer("tongTien").notNull(),
+});
 
-// export const DichVu = pgTable("DichVu", {
-//   maDichVu: serial("maDichVu").primaryKey(),
-//   tenDichVu: varchar("tenDichVu", { length: 255 }).notNull(),
-//   donVi: text("donVi").notNull(),
-//   gia: integer("gia").notNull(),
-// });
+export const ChiTietPhieuNhapKho = pgTable("ChiTietPhieuNhapKho", {
+  maPhieuNhapKho: integer("maPhieuNhapKho").notNull().references(() => PhieuNhapKho.maPhieuNhapKho),
+  maDichVu: integer("maDichVu").notNull().references(() => DichVu.maDichVu),
+  soLuong: integer("soLuong").notNull(),
+  gia: integer("gia").notNull(),
+}, table => ({
+  unique_phieu_dichvu: uniqueIndex("unique_phieu_nhapdichvu").on(table.maPhieuNhapKho, table.maDichVu),
+}));
 
-// export const SuDungDichVu = pgTable("SuDungDichVu", {
-//   maPhieuThanhToan: integer("maPhieuThanhToan").notNull().references(() => PhieuThanhToan.maPhieuThanhToan),
-//   maDichVu: integer("maDichVu").notNull().references(() => DichVu.maDichVu),
-//   soLuong: integer("soLuong").notNull(),
-//   ngaySuDung: timestamp("ngaySuDung").notNull(),
-// }, (table) => ({
-//   unique_phieu_dichvu: uniqueIndex("unique_phieu_dichvu").on(table.maPhieuThanhToan, table.maDichVu),
-// }));
+export const PhieuXuatKho = pgTable("PhieuXuatKho", {
+  maPhieuXuatKho: serial("maPhieuXuatKho").primaryKey(),
+  //  maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
+  ngayXuat: timestamp("ngayXuat").notNull(),
+  tongTien: integer("tongTien").notNull(),
+});
 
-// export const PhieuNhapKho = pgTable("PhieuNhapKho", {
-//   maPhieuNhapKho: serial("maPhieuNhapKho").primaryKey(),
-//   maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
-//   ngayNhap: timestamp("ngayNhap").notNull(),
-//   tongTien: integer("tongTien").notNull(),
-// });
-
-// export const ChiTietPhieuNhapKho = pgTable("ChiTietPhieuNhapKho", {
-//   maPhieuNhapKho: integer("maPhieuNhapKho").notNull().references(() => PhieuNhapKho.maPhieuNhapKho),
-//   maDichVu: integer("maDichVu").notNull().references(() => DichVu.maDichVu),
-//   soLuong: integer("soLuong").notNull(),
-//   gia: integer("gia").notNull(),
-// }, table => ({
-//   unique_phieu_dichvu: uniqueIndex("unique_phieu_dichvu").on(table.maPhieuNhapKho, table.maDichVu),
-// }));
-
-// export const PhieuXuatKho = pgTable("PhieuXuatKho", {
-//   maPhieuXuatKho: serial("maPhieuXuatKho").primaryKey(),
-//   maNhanVien: integer("maNhanVien").notNull().references(() => NhanVien.maNhanVien),
-//   ngayXuat: timestamp("ngayXuat").notNull(),
-//   tongTien: integer("tongTien").notNull(),
-// });
-
-// export const ChiTietPhieuXuatKho = pgTable("ChiTietPhieuXuatKho", {
-//   maPhieuXuatKho: integer("maPhieuXuatKho").notNull().references(() => PhieuXuatKho.maPhieuXuatKho),
-//   maDichVu: integer("maDichVu").notNull().references(() => DichVu.maDichVu),
-//   soLuong: integer("soLuong").notNull(),
-//   gia: integer("gia").notNull(),
-//   lyDo: text("lyDo").notNull(),
-// }, table => ({
-//   unique_phieu_dichvu: uniqueIndex("unique_phieu_dichvu").on(table.maPhieuXuatKho, table.maDichVu),
-// }));
+export const ChiTietPhieuXuatKho = pgTable("ChiTietPhieuXuatKho", {
+  maPhieuXuatKho: integer("maPhieuXuatKho").notNull().references(() => PhieuXuatKho.maPhieuXuatKho),
+  maDichVu: integer("maDichVu").notNull().references(() => DichVu.maDichVu),
+  soLuong: integer("soLuong").notNull(),
+  gia: integer("gia").notNull(),
+  lyDo: text("lyDo").notNull(),
+}, table => ({
+  unique_phieu_dichvu: uniqueIndex("unique_phieu_xuatdichvu").on(table.maPhieuXuatKho, table.maDichVu),
+}));
