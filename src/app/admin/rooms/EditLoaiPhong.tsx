@@ -28,15 +28,12 @@ export default function EditRoomModal({ room, anhPhuExisting, onClose }: Props) 
     const [dienTich, setDienTich] = useState(room.dienTich?.toString() || "");
     const [soNguoi, setSoNguoi] = useState(room.soNguoi?.toString() || "");
 
-    // File states for new uploads
     const [anhChinhNew, setAnhChinhNew] = useState<File | null>(null);
     const [anhPhuNew, setAnhPhuNew] = useState<(File | null)[]>([null]);
 
-    // Existing images to keep
     const [anhChinhUrl, setAnhChinhUrl] = useState(room.anhChinh);
     const [anhPhuUrls, setAnhPhuUrls] = useState<string[]>(anhPhuExisting);
 
-    // Preview states
     const [anhChinhPreview, setAnhChinhPreview] = useState("");
     const [anhPhuPreviews, setAnhPhuPreviews] = useState<string[]>([""]);
 
