@@ -78,7 +78,7 @@ export default function DashboardClient({ stats }: DashboardProps) {
                             Quản lý Hệ thống
                         </h3>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                         <Link href="/admin/bookings" className="group p-6 bg-slate-50 hover:bg-white hover:shadow-xl hover:shadow-blue-50 border border-slate-100 hover:border-blue-200 rounded-3xl transition-all duration-300">
                             <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
