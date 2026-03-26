@@ -7,17 +7,19 @@ import { revalidatePath } from "next/cache";
 import fs from "fs/promises";
 import path from "path";
 
+//Lưu file ảnh loại phòng khi thêm mới
 async function saveFile(file: File): Promise<string> {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const fileName = `${Date.now()}-${file.name.replace(/\s+/g, "_")}`;
-    const relativePath = `/uploads/${fileName}`;
-    const fullPath = path.join(process.cwd(), "public", "uploads", fileName);
-    
+    const relativePath = `/uploads/anh_loai_phong/${fileName}`;
+    const fullPath = path.join(process.cwd(), "public", "uploads", "anh_loai_phong", fileName);
+
     await fs.writeFile(fullPath, buffer);
     return relativePath;
 }
 
+// Thêm loại phòng
 export async function addRoomTypeAction(formData: FormData) {
     try {
         const tenLoaiPhong = formData.get("tenLoaiPhong") as string;
@@ -45,7 +47,6 @@ export async function addRoomTypeAction(formData: FormData) {
 
         const maLoaiPhong = newRoom[0].maLoaiPhong;
 
-        // Thêm ảnh phụ nếu có
         const anhPhuUrls: string[] = [];
         for (const file of anhPhuFiles) {
             if (file && file.size > 0) {
@@ -69,6 +70,7 @@ export async function addRoomTypeAction(formData: FormData) {
     }
 }
 
+// Cập nhật loại phòng
 export async function updateRoomTypeAction(maLoaiPhong: number, formData: FormData) {
     try {
         const tenLoaiPhong = formData.get("tenLoaiPhong") as string;
@@ -79,7 +81,7 @@ export async function updateRoomTypeAction(maLoaiPhong: number, formData: FormDa
 
         const anhChinhFile = formData.get("anhChinh") as File;
         const anhPhuFiles = formData.getAll("anhPhu") as File[];
-        
+
         const existingAnhChinh = formData.get("existingAnhChinh") as string;
         const existingAnhPhu = formData.getAll("existingAnhPhu") as string[];
 
@@ -97,11 +99,10 @@ export async function updateRoomTypeAction(maLoaiPhong: number, formData: FormDa
             anhChinh: anhChinhUrl,
         }).where(eq(LoaiPhong.maLoaiPhong, maLoaiPhong));
 
-        // Handle supplementary images
         await db.delete(AnhLoaiPhong).where(eq(AnhLoaiPhong.maLoaiPhong, maLoaiPhong));
-        
+
         const allAnhPhuUrls = [...existingAnhPhu];
-        
+
         for (const file of anhPhuFiles) {
             if (file && file.size > 0) {
                 const url = await saveFile(file);
@@ -110,7 +111,7 @@ export async function updateRoomTypeAction(maLoaiPhong: number, formData: FormDa
         }
 
         if (allAnhPhuUrls.length > 0) {
-             await db.insert(AnhLoaiPhong).values(
+            await db.insert(AnhLoaiPhong).values(
                 allAnhPhuUrls.map((url) => ({ maLoaiPhong, imageUrl: url }))
             );
         }
@@ -191,11 +192,11 @@ export async function getPhongByLoaiAction(maLoaiPhong: number) {
     }
 }
 
+//Thêm mới phòng trong loại phòng
 export async function addPhongAction(maLoaiPhong: number, soPhong: string, maTinhTrang: number) {
     try {
-        // Đồng bộ lại sequence của maPhong để tránh lỗi PKey (trong trường hợp lệch sequence)
         await db.execute(sql`SELECT setval(pg_get_serial_sequence('"Phong"', 'maPhong'), (SELECT MAX("maPhong") FROM "Phong"))`);
-        
+
         const result = await db.insert(Phong).values({ maLoaiPhong, soPhong, maTinhTrang }).returning({ maPhong: Phong.maPhong });
         return { success: true, maPhong: result[0].maPhong };
     } catch (error: any) {
@@ -204,6 +205,7 @@ export async function addPhongAction(maLoaiPhong: number, soPhong: string, maTin
     }
 }
 
+//Xóa phòng
 export async function deletePhongAction(maPhong: number) {
     try {
         await db.delete(Phong).where(eq(Phong.maPhong, maPhong));
@@ -214,6 +216,7 @@ export async function deletePhongAction(maPhong: number) {
     }
 }
 
+//Cập nhật phòng
 export async function updatePhongAction(maPhong: number, soPhong: string, maTinhTrang: number) {
     try {
         const result = await db.update(Phong)
@@ -227,6 +230,7 @@ export async function updatePhongAction(maPhong: number, soPhong: string, maTinh
     }
 }
 
+//Lấy tình trạng phòng
 export async function getAllTinhTrangAction() {
     try {
         const data = await db.select().from(TinhTrang);
