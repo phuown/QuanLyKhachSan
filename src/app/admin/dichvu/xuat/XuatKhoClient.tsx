@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, Fragment } from "react";
-import { Plus, Eye, ArrowLeft, Calendar, FileText, Package, Trash2 } from "lucide-react";
+import { Plus, Eye, ArrowLeft, Calendar, FileText, Package, Trash2, Edit2 } from "lucide-react";
 import Link from "next/link";
-import { createPhieuXuatAction, getChiTietPhieuXuatAction, deletePhieuXuatAction } from "../actions";
+import { createPhieuXuatAction, getChiTietPhieuXuatAction, deletePhieuXuatAction, updatePhieuXuatAction } from "../actions";
 
 interface Service {
     maDichVu: number;
@@ -14,6 +14,7 @@ interface Service {
 
 export default function XuatKhoClient({ phieuXuats, services }: { phieuXuats: any[]; services: Service[] }) {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [editingPhieu, setEditingPhieu] = useState<{ id: number; items: any[] } | null>(null);
     const [expandedId, setExpandedId] = useState<number | null>(null);
     const [detailsMap, setDetailsMap] = useState<Record<number, any[]>>({});
 
@@ -131,8 +132,18 @@ export default function XuatKhoClient({ phieuXuats, services }: { phieuXuats: an
                                                 <div className="px-8 py-6 animate-in fade-in slide-in-from-top-2 duration-300">
                                                     <div className="flex items-center gap-3 mb-4">
                                                         <div className="h-px w-10 bg-gray-200"></div>
-                                                        <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 italic">Chi tiết sản phẩm</span>
+                                                        <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 italic whitespace-nowrap">Chi tiết sản phẩm</span>
                                                         <div className="h-px flex-1 bg-gray-200"></div>
+                                                        <button
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-widest"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (details) setEditingPhieu({ id: p.maPhieuXuatKho, items: details });
+                                                            }}
+                                                        >
+                                                            <Edit2 size={12} />
+                                                            Chỉnh sửa
+                                                        </button>
                                                     </div>
                                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                                         {details ? details.map((d, i) => (
@@ -191,18 +202,35 @@ export default function XuatKhoClient({ phieuXuats, services }: { phieuXuats: an
             </div>
 
             {isAddModalOpen && (
-                <AddPhieuXuatModal
+                <PhieuXuatModal
                     services={services}
                     onClose={() => setIsAddModalOpen(false)}
+                />
+            )}
+
+            {editingPhieu && (
+                <PhieuXuatModal
+                    services={services}
+                    initialData={editingPhieu}
+                    onClose={() => setEditingPhieu(null)}
                 />
             )}
         </main>
     );
 }
 
-function AddPhieuXuatModal({ services, onClose }: { services: Service[], onClose: () => void }) {
+function PhieuXuatModal({ services, onClose, initialData }: {
+    services: Service[],
+    onClose: () => void,
+    initialData?: { id: number; items: any[] }
+}) {
     const [items, setItems] = useState<{ maDichVu: number; soLuong: number; gia: number; lyDo: string }[]>(
-        [{ maDichVu: 0, soLuong: 1, gia: 0, lyDo: "Xuất kho định kỳ" }]
+        initialData ? initialData.items.map(i => ({
+            maDichVu: i.maDichVu,
+            soLuong: i.soLuong,
+            gia: i.gia,
+            lyDo: (i as any).lyDo || "Xuất kho định kỳ"
+        })) : [{ maDichVu: 0, soLuong: 1, gia: 0, lyDo: "Xuất kho định kỳ" }]
     );
 
     const addItem = () => {
@@ -226,7 +254,11 @@ function AddPhieuXuatModal({ services, onClose }: { services: Service[], onClose
     const handleSubmit = async () => {
         if (items.length === 0) return alert("Vui lòng thêm ít nhất một sản phẩm");
         if (items.some(k => k.maDichVu === 0)) return alert("Vui lòng chọn dịch vụ cho tất cả các dòng");
-        const res = await createPhieuXuatAction({ ngayXuat: new Date(), items });
+
+        const res = initialData
+            ? await updatePhieuXuatAction(initialData.id, { ngayXuat: new Date(), items })
+            : await createPhieuXuatAction({ ngayXuat: new Date(), items });
+
         if (res.success) onClose();
         else alert(res.message);
     };
@@ -235,27 +267,31 @@ function AddPhieuXuatModal({ services, onClose }: { services: Service[], onClose
 
     return (
         <div className="fixed inset-0 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-6 z-50">
-            <div className="bg-white rounded-[3rem] w-full max-w-5xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-300">
-                <div className="p-10 border-b border-gray-50 flex justify-between items-center bg-gray-50/20">
+            <div className="bg-white rounded-[3rem] w-full max-w-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+                <div className="px-10 py-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/20">
                     <div>
-                        <h2 className="text-3xl font-black text-gray-900 tracking-tight">Lập Phiếu Xuất Kho</h2>
-                        <p className="text-gray-400 italic">Chọn dịch vụ và lý do để xuất khỏi kho hệ thống</p>
+                        <h2 className="text-2xl font-black text-gray-900 tracking-tight">
+                            {initialData ? `Sửa Phiếu #${initialData.id}` : "Lập Phiếu Xuất"}
+                        </h2>
+                        <p className="text-[11px] text-gray-400 italic">
+                            {initialData ? "Cập nhật mặt hàng" : "Chọn dịch vụ & lý do"}
+                        </p>
                     </div>
                     <div className="text-right">
                         <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Tổng giá trị dự kiến</p>
-                        <p className="text-3xl font-black text-red-600 tracking-tighter">
+                        <p className="text-2xl font-black text-red-600 tracking-tighter">
                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total)}
                         </p>
                     </div>
                 </div>
 
-                <div className="p-10 flex-1 overflow-y-auto space-y-6">
+                <div className="px-10 py-6 flex-1 overflow-y-auto space-y-4">
                     {items.map((item, idx) => (
-                        <div key={idx} className="flex gap-4 items-end bg-gray-50/50 p-4 rounded-2xl border border-gray-100 transition-all hover:bg-white hover:border-red-100 group">
+                        <div key={idx} className="flex gap-2 items-end bg-gray-50/50 p-3 rounded-2xl border border-gray-100 transition-all hover:bg-white hover:border-red-100 group">
                             <div className="flex-1">
                                 <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Dịch vụ</label>
                                 <select
-                                    className="w-full px-4 py-2.5 bg-white border border-blue-100 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-500/5 font-bold text-gray-700 text-sm transition-all outline-none appearance-none"
+                                    className="w-full px-3 py-2 bg-white border border-blue-100 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-500/5 font-bold text-gray-700 text-xs transition-all outline-none appearance-none"
                                     value={item.maDichVu}
                                     onChange={(e) => updateItem(idx, "maDichVu", Number(e.target.value))}
                                 >
@@ -267,7 +303,7 @@ function AddPhieuXuatModal({ services, onClose }: { services: Service[], onClose
                                 <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Số lượng</label>
                                 <input
                                     type="number" min="1"
-                                    className="w-full px-4 py-2.5 bg-white border border-blue-100 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-500/5 font-bold text-gray-700 text-sm text-center transition-all outline-none"
+                                    className="w-full px-3 py-2 bg-white border border-blue-100 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-500/5 font-bold text-gray-700 text-xs text-center transition-all outline-none"
                                     value={item.soLuong}
                                     onChange={(e) => updateItem(idx, "soLuong", Number(e.target.value))}
                                 />
@@ -275,31 +311,31 @@ function AddPhieuXuatModal({ services, onClose }: { services: Service[], onClose
                             <div className="flex-[1.5]">
                                 <label className="block text-[9px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Lý do xuất</label>
                                 <input
-                                    className="w-full px-4 py-2.5 bg-white border border-blue-100 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-500/5 font-bold text-gray-700 text-sm italic transition-all outline-none"
+                                    className="w-full px-3 py-2 bg-white border border-blue-100 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-500/5 font-bold text-gray-700 text-xs italic transition-all outline-none"
                                     value={item.lyDo}
                                     onChange={(e) => updateItem(idx, "lyDo", e.target.value)}
-                                    placeholder="Lý do xuất kho..."
+                                    placeholder="Lý do..."
                                 />
                             </div>
                             <button
                                 onClick={() => removeItem(idx)}
-                                className="p-4 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition"
+                                className="p-3 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition"
                             >
-                                <Trash2 size={20} />
+                                <Trash2 size={16} />
                             </button>
                         </div>
                     ))}
 
                     <button
                         onClick={addItem}
-                        className="w-full py-2 border-2 border-dashed border-gray-100 rounded-[2.5rem] text-gray-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50/30 transition-all font-bold flex flex-col items-center gap-2 group"
+                        className="w-full py-1 border-2 border-dashed border-gray-100 rounded-[2.5rem] text-gray-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50/30 transition-all font-bold flex flex-col items-center gap-2 group"
                     >
-                        <Plus size={32} className="group-hover:scale-110 transition-transform" />
+                        <Plus size={20} className="group-hover:scale-110 transition-transform" />
                         <span>Phiếu xuất kho</span>
                     </button>
                 </div>
 
-                <div className="p-6 bg-gray-50 border-t border-gray-100 flex justify-center gap-4">
+                <div className="px-10 py-4 bg-gray-50 border-t border-gray-100 flex justify-center gap-4">
                     <button onClick={onClose} className="px-10 py-3 bg-white border border-gray-200 text-gray-500 rounded-2xl font-bold hover:bg-gray-100 transition shadow-sm text-sm">Hủy phiếu</button>
                     <button
                         onClick={handleSubmit}
