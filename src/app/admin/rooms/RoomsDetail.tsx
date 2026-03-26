@@ -22,7 +22,7 @@ interface Props {
     onClose: () => void;
 }
 
-export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }: Props) {
+export default function RoomsDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }: Props) {
     const [phongs, setPhongs] = useState<PhongItem[]>([]);
     const [tinhTrangs, setTinhTrangs] = useState<TinhTrangItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -196,7 +196,7 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {phongs.map((p) => {
                                 const isEditing = editingId === p.maPhong;
-                                
+
                                 return (
                                     <div key={p.maPhong} className={`flex flex-col p-4 border rounded-xl transition ${isEditing ? 'border-blue-400 bg-white shadow-md' : 'border-gray-200 bg-gray-50 hover:bg-white hover:shadow-sm'}`}>
                                         {isEditing ? (
@@ -204,17 +204,17 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
                                                 <div className="flex gap-2">
                                                     <div className="flex-1">
                                                         <label className="text-[10px] font-bold text-gray-400 uppercase">Số phòng</label>
-                                                        <input 
-                                                            type="text" 
-                                                            value={editSoPhong} 
+                                                        <input
+                                                            type="text"
+                                                            value={editSoPhong}
                                                             onChange={(e) => setEditSoPhong(e.target.value)}
                                                             className="w-full text-gray-800 px-2 py-1 border border-slate-200 rounded-lg focus:border-blue-500 outline-none text-sm font-bold"
                                                         />
                                                     </div>
                                                     <div className="flex-1">
                                                         <label className="text-[10px] font-bold text-gray-400 uppercase">Trạng thái</label>
-                                                        <select 
-                                                            value={editMaTinhTrang} 
+                                                        <select
+                                                            value={editMaTinhTrang}
                                                             onChange={(e) => setEditMaTinhTrang(parseInt(e.target.value))}
                                                             className="w-full text-gray-800 px-2 py-1 border border-slate-200 rounded-lg focus:border-blue-500 outline-none text-sm"
                                                         >
@@ -225,13 +225,13 @@ export default function PhongDetailModal({ maLoaiPhong, tenLoaiPhong, onClose }:
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-end gap-2 pt-1">
-                                                    <button 
+                                                    <button
                                                         onClick={() => setEditingId(null)}
                                                         className="px-3 py-1 text-xs font-bold text-gray-500 hover:text-gray-700"
                                                     >
                                                         Hủy
                                                     </button>
-                                                    <button 
+                                                    <button
                                                         onClick={handleUpdate}
                                                         disabled={isPending}
                                                         className="px-4 py-1.5 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 shadow-sm"
