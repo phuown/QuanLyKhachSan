@@ -17,7 +17,6 @@ export default function Footer() {
                         <div className="flex gap-4 justify-center">
                             <a href="#" className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"><Facebook size={16} /></a>
                             <a href="#" className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"><Instagram size={16} /></a>
-                            <a href="#" className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"><Twitter size={16} /></a>
                         </div>
                     </div>
 
