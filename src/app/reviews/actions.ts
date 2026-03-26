@@ -5,6 +5,7 @@ import { DanhGia, KhachHang } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
+// Lấy tất cả đánh giá trong cơ sở dữ liệu
 export async function getReviewsAction() {
     try {
         const reviews = await db.select()
@@ -17,6 +18,7 @@ export async function getReviewsAction() {
     }
 }
 
+// Gửi đánh giá cho khách sạn
 export async function submitReviewAction(formData: {
     tenKhachHang: string;
     email: string;
