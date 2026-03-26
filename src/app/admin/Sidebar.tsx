@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoutButton from "./LogoutButton";
-import { LayoutDashboard, CalendarCheck, BedDouble, Tag, PlusCircle } from "lucide-react";
+import { LayoutDashboard, CalendarCheck, BedDouble, Tag, PlusCircle, Package } from "lucide-react";
 
 const navItems = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Quản lý đặt phòng", href: "/admin/bookings", icon: CalendarCheck },
     { name: "Quản lý loại phòng", href: "/admin/rooms", icon: BedDouble },
     { name: "Quản lý khuyến mãi", href: "/admin/khuyenmai", icon: Tag },
+    { name: "Dịch vụ & Kho", href: "/admin/dichvu", icon: Package },
 ];
 
 export default function Sidebar() {
