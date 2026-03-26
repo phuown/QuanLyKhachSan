@@ -86,6 +86,39 @@ export async function createPhieuNhapAction(data: { ngayNhap: Date; items: { maD
 }
 
 
+// Cập nhật phiếu nhập kho
+export async function updatePhieuNhapAction(id: number, data: { ngayNhap: Date; items: { maDichVu: number; soLuong: number; gia: number }[] }) {
+    try {
+        const tongTien = data.items.reduce((acc, item) => acc + item.soLuong * item.gia, 0);
+
+        await db.update(PhieuNhapKho).set({
+            ngayNhap: data.ngayNhap,
+            tongTien: tongTien
+        }).where(eq(PhieuNhapKho.maPhieuNhapKho, id));
+
+        // Xóa chi tiết cũ và thêm chi tiết mới
+        await db.delete(ChiTietPhieuNhapKho).where(eq(ChiTietPhieuNhapKho.maPhieuNhapKho, id));
+        
+        if (data.items.length > 0) {
+            await db.insert(ChiTietPhieuNhapKho).values(
+                data.items.map(item => ({
+                    maPhieuNhapKho: id,
+                    maDichVu: item.maDichVu,
+                    soLuong: item.soLuong,
+                    gia: item.gia
+                }))
+            );
+        }
+
+        revalidatePath("/admin/dichvu/nhap");
+        return { success: true };
+    } catch (error) {
+        console.error("UpdatePhieuNhap Error:", error);
+        return { success: false, message: "Không thể cập nhật phiếu nhập" };
+    }
+}
+
+
 // Lấy danh sách phiếu xuất kho
 export async function getPhieuXuatAction() {
     return await db.select().from(PhieuXuatKho).orderBy(desc(PhieuXuatKho.ngayXuat));
@@ -126,6 +159,41 @@ export async function createPhieuXuatAction(data: { ngayXuat: Date; items: { maD
     }
 }
 
+// Cập nhật phiếu xuất kho
+export async function updatePhieuXuatAction(id: number, data: { ngayXuat: Date; items: { maDichVu: number; soLuong: number; gia: number; lyDo: string }[] }) {
+    try {
+        const tongTien = data.items.reduce((acc, item) => acc + item.soLuong * item.gia, 0);
+
+        await db.update(PhieuXuatKho).set({
+            ngayXuat: data.ngayXuat,
+            tongTien: tongTien
+        }).where(eq(PhieuXuatKho.maPhieuXuatKho, id));
+
+        // Xóa chi tiết cũ và thêm chi tiết mới
+        await db.delete(ChiTietPhieuXuatKho).where(eq(ChiTietPhieuXuatKho.maPhieuXuatKho, id));
+
+        if (data.items.length > 0) {
+            await db.insert(ChiTietPhieuXuatKho).values(
+                data.items.map(item => ({
+                    maPhieuXuatKho: id,
+                    maDichVu: item.maDichVu,
+                    soLuong: item.soLuong,
+                    gia: item.gia,
+                    lyDo: item.lyDo
+                }))
+            );
+        }
+
+        revalidatePath("/admin/dichvu/xuat");
+        return { success: true };
+    } catch (error) {
+        console.error("UpdatePhieuXuat Error:", error);
+        return { success: false, message: "Không thể cập nhật phiếu xuất" };
+    }
+}
+
+
+//Xóa phiếu nhập kho
 export async function deletePhieuNhapAction(id: number) {
     try {
         await db.delete(ChiTietPhieuNhapKho).where(eq(ChiTietPhieuNhapKho.maPhieuNhapKho, id));
@@ -138,6 +206,7 @@ export async function deletePhieuNhapAction(id: number) {
     }
 }
 
+//Xóa phiếu xuất kho
 export async function deletePhieuXuatAction(id: number) {
     try {
         await db.delete(ChiTietPhieuXuatKho).where(eq(ChiTietPhieuXuatKho.maPhieuXuatKho, id));
