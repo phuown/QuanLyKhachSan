@@ -27,7 +27,6 @@ export default async function AdminRoomsPage() {
         <div className="min-h-screen bg-gray-100 flex">
             <Sidebar />
 
-            {/* Main Content */}
             <main className="flex-1 p-8">
                 <RoomsClient rooms={allRooms} images={allImages} />
             </main>
