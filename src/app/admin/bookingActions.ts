@@ -5,6 +5,7 @@ import { PhieuDatPhong, chiTietPhieuDatPhong, Phong, TinhTrang } from "@/db/sche
 import { eq, and, inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
+// Cập nhật trạng thái phiếu đặt phòng
 export async function updateBookingStatusAction(maPhieu: number, trangThai: string) {
     try {
         const updateData: any = { trangThai };
