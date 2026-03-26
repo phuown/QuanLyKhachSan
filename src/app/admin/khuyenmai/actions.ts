@@ -5,6 +5,7 @@ import { KhuyenMai, ChiTietKhuyenMai, LoaiPhong } from "@/db/schema";
 import { eq, and, lte, gte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
+// Tạo phiếu khuyến mại
 export async function addKhuyenMaiAction(formData: {
     maCode: string;
     tenKhuyenMai: string;
@@ -43,6 +44,7 @@ export async function addKhuyenMaiAction(formData: {
     }
 }
 
+// Xóa phiếu khuyến mại
 export async function deleteKhuyenMaiAction(maKhuyenMai: number) {
     try {
         await db.delete(ChiTietKhuyenMai).where(eq(ChiTietKhuyenMai.maKhuyenMai, maKhuyenMai));
@@ -55,6 +57,7 @@ export async function deleteKhuyenMaiAction(maKhuyenMai: number) {
     }
 }
 
+// Lấy tất cả loại phòng
 export async function getAllLoaiPhongAction() {
     try {
         const data = await db.select().from(LoaiPhong);
@@ -63,6 +66,8 @@ export async function getAllLoaiPhongAction() {
         return { success: false, data: [], message: error.message };
     }
 }
+
+// Kiểm tra điều kiện của mã khuyến mại
 export async function validatePromotionAction(maCode: string, maLoaiPhong: number) {
     try {
         const today = new Date().toISOString().split("T")[0];
@@ -113,6 +118,7 @@ export async function validatePromotionAction(maCode: string, maLoaiPhong: numbe
     }
 }
 
+//  Lấy thông tin theo mã khuyến mại
 export async function getKhuyenMaiByIdAction(maKhuyenMai: number) {
     try {
         const promotion = await db.select().from(KhuyenMai).where(eq(KhuyenMai.maKhuyenMai, maKhuyenMai));
@@ -126,6 +132,7 @@ export async function getKhuyenMaiByIdAction(maKhuyenMai: number) {
     }
 }
 
+// Cập nhật khuyến mại
 export async function updateKhuyenMaiAction(maKhuyenMai: number, formData: {
     maCode: string;
     tenKhuyenMai: string;
