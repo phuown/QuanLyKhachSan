@@ -22,11 +22,13 @@ export async function adminLoginAction(username: string, password: string) {
     return { success: false, message: "Tài khoản hoặc mật khẩu không chính xác!" };
 }
 
+// Đăng xuất admin
 export async function adminLogoutAction() {
     const cookieStore = await cookies();
     cookieStore.delete("admin_session");
 }
 
+// Lấy thống kê
 export async function getDashboardStatsAction() {
     try {
         // 1. Tổng số lượng khách hàng đang ở (tổng soLuongKhach từ phiếu 'da_nhan_phong')
